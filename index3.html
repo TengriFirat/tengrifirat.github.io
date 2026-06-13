@@ -1,0 +1,62 @@
+function cleanAndHighlight(text) {
+    const map = new Map();
+
+    // 1. HTML strong / em koru
+    text = text.replace(/<(strong|b)>.*?<\/(strong|b)>/gi, m => {
+        const k = "__STRONG_" + map.size + "__";
+        map.set(k, m);
+        return k;
+    });
+
+    text = text.replace(/<(em|i)>.*?<\/(em|i)>/gi, m => {
+        const k = "__EM_" + map.size + "__";
+        map.set(k, m);
+        return k;
+    });
+
+    // 2. NBSP temizle (çok önemli)
+    text = text.replace(/\u00A0/g, " ");
+
+    // 3. fazla boşluk temizle
+    text = text.replace(/\s+/g, " ").trim();
+
+    // 4. RENKLENDİRİLECEK KELİMELER
+    const keywords = [
+        "yüksek kaliteli",
+        "hakiki deri",
+        "unisex",
+        "birinci sınıf",
+        "1. kalite",
+        "1 . kalite",
+        "1. sınıf",
+        "1 . sınıf"
+    ];
+
+    keywords.forEach(word => {
+        const regex = new RegExp(word.replace(/\./g, "\\.").replace(/ /g, "\\s+"), "gi");
+        text = text.replace(regex, match => {
+            return `<span style="color:red; font-weight:bold;">${match}</span>`;
+        });
+    });
+
+    // 5. geri yükle
+    map.forEach((v, k) => {
+        text = text.replace(k, v);
+    });
+
+    return text;
+}
+
+// input event
+document.getElementById("input").addEventListener("input", async function() {
+    const cleaned = cleanAndHighlight(this.value);
+
+    document.getElementById("output").innerHTML = cleaned;
+
+    // otomatik kopyala (HTML değil, düz metin kopyalar istersen değiştiririz)
+    try {
+        await navigator.clipboard.writeText(cleaned);
+    } catch (e) {
+        console.log("Kopyalama engellendi");
+    }
+});
