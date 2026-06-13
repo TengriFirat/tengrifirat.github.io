@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Metin Temizleyici</title>
+<style>
+    body { font-family: Arial; padding: 20px; }
+    textarea { width: 100%; height: 200px; }
+    #output { margin-top: 20px; white-space: pre-wrap; background:#f5f5f5; padding:10px; }
+</style>
+</head>
+<body>
+
+<h2>Metin Yapıştır</h2>
+<textarea id="input" placeholder="Metni buraya yapıştır..."></textarea>
+
+<h3>Temizlenmiş Metin</h3>
+<div id="output"></div>
+
+<script>
+function cleanTextKeepFormatting(text) {
+    const map = new Map();
+
+    // 1. Markdown bold **text**
+    text = text.replace(/\*\*.*?\*\*/g, m => {
+        const k = "__BOLD_" + map.size + "__";
+        map.set(k, m);
+        return k;
+    });
+
+    // 2. Italic *text*
+    text = text.replace(/\*(?!\*)(.*?)\*/g, m => {
+        const k = "__ITALIC_" + map.size + "__";
+        map.set(k, m);
+        return k;
+    });
+
+    // 3. HTML strong / b
+    text = text.replace(/<(strong|b)>.*?<\/(strong|b)>/gi, m => {
+        const k = "__STRONG_" + map.size + "__";
+        map.set(k, m);
+        return k;
+    });
+
+    // 4. HTML em / italic
+    text = text.replace(/<(em|i)>.*?<\/(em|i)>/gi, m => {
+        const k = "__EM_" + map.size + "__";
+        map.set(k, m);
+        return k;
+    });
+
+    // 5. fazla boşlukları temizle
+    text = text.replace(/\s+/g, " ").trim();
+
+    // 6. geri yükle
+    map.forEach((v, k) => {
+        text = text.replace(k, v);
+    });
+
+    return text;
+}
+
+// otomatik çalıştır + otomatik kopyala
+document.getElementById("input").addEventListener("input", async function() {
+    const cleaned = cleanTextKeepFormatting(this.value);
+    document.getElementById("output").innerText = cleaned;
+
+    // otomatik kopyala
+    try {
+        await navigator.clipboard.writeText(cleaned);
+    } catch (e) {
+        console.log("Kopyalama engellendi");
+    }
+});
+</script>
+
+</body>
+</html>
