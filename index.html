@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tengri Panel</title>
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+    margin:0;
+    padding:20px;
+    font-family:Arial,sans-serif;
+    color:#e8e8e8;
+    overflow-x:hidden;
+
+    background:
+        radial-gradient(circle at top, #0b1220, #05070d);
+}
+
+/* 🐺 EPİK BOZKURT AURA */
+body::before{
+    content:"";
+    position:fixed;
+    top:50%;
+    left:50%;
+    width:650px;
+    height:650px;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    opacity:0.10;
+
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:contain;
+
+    /* stilize bozkurt SVG */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23d6c28a' d='M256 40l55 100 110 35-75 70 20 110-110-55-110 55 20-110-75-70 110-35 55-100z'/%3E%3C/svg%3E");
+
+    filter:
+        drop-shadow(0 0 12px rgba(214,194,138,0.7))
+        drop-shadow(0 0 35px rgba(255,120,0,0.25));
+
+    animation:wolfSpirit 6s ease-in-out infinite;
+}
+
+@keyframes wolfSpirit{
+    0%,100%{
+        transform:translate(-50%,-50%) scale(1);
+        opacity:0.07;
+    }
+    50%{
+        transform:translate(-50%,-50%) scale(1.08);
+        opacity:0.14;
+    }
+}
+
+/* TAB SYSTEM */
+.tabs{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.tab-btn{
+    background:#0a0a0a;
+    color:#d6c28a;
+    border:1px solid #2b2b2b;
+    padding:10px 16px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.tab-btn.active{
+    border-color:#d6c28a;
+    transform:scale(1.05);
+    box-shadow:0 0 12px rgba(214,194,138,0.4);
+}
+
+.container{
+    position:relative;
+    width:100%;
+}
+
+.tab-content{
+    position:absolute;
+    width:100%;
+    opacity:0;
+    transform:translateY(10px);
+    transition:.4s;
+    pointer-events:none;
+}
+
+.tab-content.active{
+    opacity:1;
+    transform:translateY(0);
+    position:relative;
+    pointer-events:auto;
+}
+
+/* TEXTAREA + OUTPUT */
+textarea{
+    width:100%;
+    height:180px;
+    background:linear-gradient(145deg,#0e0e0e,#141414);
+    color:#e6e6e6;
+    border:1px solid #3a3a3a;
+    padding:12px;
+}
+
+.output{
+    width:100%;
+    min-height:180px;
+    background:linear-gradient(145deg,#0e0e0e,#101010);
+    border:1px solid #3a3a3a;
+    padding:12px;
+    white-space:pre-wrap;
+}
+
+/* BUTTONS */
+button{
+    background:#0a0a0a;
+    color:#d6c28a;
+    border:1px solid #2b2b2b;
+    padding:10px 14px;
+    margin-right:10px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    border-color:#d6c28a;
+    box-shadow:0 0 10px rgba(214,194,138,0.3);
+}
+
+/* BAD WORD */
+.bad-word{
+    color:#ff4a4a;
+    font-weight:800;
+    background:rgba(255,0,0,0.08);
+    padding:2px 4px;
+    border-radius:4px;
+}
+
+/* ⚔️ TENGRİ (TAŞ + ALTIN) */
+.watermark{
+    position:fixed;
+    bottom:18px;
+    left:0;
+    width:100%;
+    text-align:center;
+
+    font-size:60px;
+    font-weight:900;
+    letter-spacing:14px;
+
+    color:#c8b37a;
+
+    text-shadow:
+        0 1px 0 #000,
+        0 -1px 0 #000,
+        0 0 18px rgba(214,194,138,0.25),
+        2px 2px 8px rgba(0,0,0,0.8);
+
+    animation:stoneBreath 5s ease-in-out infinite;
+}
+
+@keyframes stoneBreath{
+    0%,100%{filter:brightness(1);}
+    50%{filter:brightness(1.25);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="tabs">
+    <button class="tab-btn active" onclick="openTab(0)">🧹 Boşluk Temizleyici</button>
+    <button class="tab-btn" onclick="openTab(1)">✍️ Yazım Düzenleyici</button>
+</div>
+
+<div class="container">
+
+    <div class="tab-content active">
+        <textarea id="input1"></textarea>
+        <button onclick="cleanSpaces()">Temizle</button>
+        <button onclick="copy1()">Kopyala</button>
+        <button onclick="clear1()">Sil</button>
+        <div id="output1" class="output"></div>
+    </div>
+
+    <div class="tab-content">
+        <textarea id="input2"></textarea>
+        <button onclick="fixText()">Düzelt</button>
+        <button onclick="copy2()">Kopyala</button>
+        <button onclick="clear2()">Sil</button>
+        <div id="output2" class="output"></div>
+    </div>
+
+</div>
+
+<div class="watermark">⚔ TENGRİ ⚔</div>
+
+<script>
+function openTab(i){
+    document.querySelectorAll(".tab-content").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+
+    document.querySelectorAll(".tab-content")[i].classList.add("active");
+    document.querySelectorAll(".tab-btn")[i].classList.add("active");
+}
+
+const bannedWords=[
+"yüksek kalite","yüksek kaliteli","hakiki deri","gerçek deri",
+"%100 deri","birinci sınıf","1. kalite","unisex"
+];
+
+function escapeRegExp(str){
+return str.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+}
+
+function highlight(text){
+bannedWords.forEach(word=>{
+const pattern=escapeRegExp(word).replace(/\s+/g,"\\s+");
+const reg=new RegExp(pattern,"gi");
+text=text.replace(reg,m=>`<span class="bad-word">${m}</span>`);
+});
+return text;
+}
+
+/* TAB 1 */
+function cleanSpaces(){
+let t=document.getElementById("input1").value;
+t=t.replace(/\u00A0/g," ")
+.split("\n")
+.map(l=>l.replace(/\s+/g," ").trim())
+.filter(Boolean)
+.join("\n");
+
+document.getElementById("output1").innerHTML=highlight(t);
+}
+
+function copy1(){
+navigator.clipboard.writeText(document.getElementById("output1").innerText);
+}
+
+function clear1(){
+document.getElementById("input1").value="";
+document.getElementById("output1").innerHTML="";
+}
+
+/* TAB 2 */
+function fixText(){
+let text=document.getElementById("input2").value;
+text=text.replace(/\u00A0/g," ").toLowerCase();
+
+let lines=text.split("\n").map(l=>{
+l=l.trim();
+if(!l)return"";
+return highlight(l.charAt(0).toUpperCase()+l.slice(1));
+}).filter(Boolean);
+
+document.getElementById("output2").innerHTML=lines.join("<br>");
+}
+
+function copy2(){
+navigator.clipboard.writeText(document.getElementById("output2").innerText);
+}
+
+function clear2(){
+document.getElementById("input2").value="";
+document.getElementById("output2").innerHTML="";
+}
+</script>
+
+</body>
+</html>
