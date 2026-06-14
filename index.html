@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metin Temizleyici</title>
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+    margin:0;
+    padding:20px;
+    background:#050b17;
+    color:white;
+    font-family:Arial,sans-serif;
+    overflow-x:hidden;
+}
+
+/* ÜST BUTON */
+.top-nav{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.nav-btn{
+    display:inline-block;
+    background:#000;
+    color:#fff;
+    text-decoration:none;
+    border:1px solid #333;
+    padding:10px 18px;
+    border-radius:6px;
+    font-weight:bold;
+}
+
+.nav-btn:hover{
+    background:#1a1a1a;
+}
+
+/* TEXTAREA */
+textarea{
+    width:100%;
+    height:200px;
+    background:#0d1628;
+    color:white;
+    border:1px solid #23324d;
+    padding:12px;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+/* OUTPUT */
+#output{
+    width:100%;
+    min-height:220px;
+    background:#0d1628;
+    border:1px solid #23324d;
+    padding:12px;
+    outline:none;
+    white-space:pre-wrap;
+    position:relative;
+    z-index:2;
+}
+
+/* BUTON */
+.buttons{margin:10px 0;}
+
+button{
+    background:#000;
+    color:#fff;
+    border:1px solid #333;
+    padding:10px 15px;
+    margin-right:10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+button:hover{background:#1a1a1a;}
+
+/* kırmızı vurgu */
+.red{
+    color:#ff4040;
+    font-weight:bold;
+}
+
+/* ===================== */
+/* 🔥 DAĞ SİLÜETİ */
+/* ===================== */
+
+.mountain{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:200px;
+    z-index:0;
+    pointer-events:none;
+}
+
+.mountain svg{
+    width:100%;
+    height:100%;
+}
+
+/* ===================== */
+/* 🔥 TENGRİ + KURT */
+/* ===================== */
+
+.watermark{
+    position:fixed;
+    bottom:40px;
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    font-size:44px;
+    font-weight:900;
+    letter-spacing:8px;
+    pointer-events:none;
+    user-select:none;
+    z-index:3;
+
+    background:linear-gradient(
+        90deg,
+        #ffb300,
+        #ff5500,
+        #ffffff,
+        #ff5500,
+        #ffb300
+    );
+    background-size:300% 100%;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation: glowMove 4s linear infinite,
+               pulse 2s ease-in-out infinite;
+}
+
+@keyframes glowMove{
+    0%{background-position:0% 50%;}
+    100%{background-position:300% 50%;}
+}
+
+@keyframes pulse{
+    0%,100%{
+        transform:scale(1);
+        filter:drop-shadow(0 0 10px rgba(255,140,0,.5));
+    }
+    50%{
+        transform:scale(1.05);
+        filter:drop-shadow(0 0 25px rgba(255,180,0,.9));
+    }
+}
+
+/* KURT */
+.wolf{
+    width:120px;
+    height:60px;
+    animation: wolfMove 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(255,180,0,.6));
+}
+
+.mirror{
+    transform: scaleX(-1);
+}
+
+@keyframes wolfMove{
+    0%,100%{
+        transform: translateY(0px) scale(1);
+        opacity:0.8;
+    }
+    50%{
+        transform: translateY(-10px) scale(1.05);
+        opacity:1;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ÜST BUTON -->
+<div class="top-nav">
+    <a href="https://tengrifirat2.github.io/" class="nav-btn">
+        Türkçe Yazım Düzenleyici
+    </a>
+</div>
+
+<h2>Metni yapıştır</h2>
+
+<textarea id="input"></textarea>
+
+<div class="buttons">
+    <button onclick="cleanText()">Temizle</button>
+    <button onclick="copyText()">Kopyala</button>
+    <button onclick="clearAll()">Sil</button>
+</div>
+
+<div id="output" contenteditable="true"></div>
+
+<!-- 🔥 DAĞ -->
+<div class="mountain">
+<svg viewBox="0 0 1000 200" preserveAspectRatio="none">
+    <path d="M0,200 L100,120 L200,160 L300,80 L400,140 L500,60 L600,150 L700,90 L800,130 L900,70 L1000,200 L1000,200 L0,200"
+          fill="#0a1425"/>
+</svg>
+</div>
+
+<!-- 🔥 TENGRİ + KURT -->
+<div class="watermark">
+
+    <svg class="wolf" viewBox="0 0 200 100">
+        <path d="M10,80 L30,40 L50,60 L70,20 L90,50 L110,30 L130,60 L150,35 L170,70 L190,50"
+              fill="none" stroke="#ffb300" stroke-width="3"/>
+    </svg>
+
+    ⚔️ TENGRİ ⚔️
+
+    <svg class="wolf mirror" viewBox="0 0 200 100">
+        <path d="M10,80 L30,40 L50,60 L70,20 L90,50 L110,30 L130,60 L150,35 L170,70 L190,50"
+              fill="none" stroke="#ff5500" stroke-width="3"/>
+    </svg>
+
+</div>
+
+<script>
+
+function cleanText(){
+
+    let text = document.getElementById("input").value;
+
+    text = text.replace(/\u00A0/g," ");
+
+    text = text
+        .split("\n")
+        .map(l => l.replace(/\s+/g," ").trim())
+        .filter(l => l.length>0)
+        .join("\n");
+
+    const keywords = [
+        "yüksek kaliteli",
+        "yüksek kalite",
+        "hakiki deri",
+        "gerçek deri",
+        "unisex",
+        "birinci sınıf",
+        "1. kalite",
+        "1. sınıf",
+        "%100 deri"
+    ];
+
+    keywords.forEach(word=>{
+        const regex = new RegExp(word,"gi");
+
+        text = text.replace(regex, match=>{
+            return `<span class="red">${match}</span>`;
+        });
+    });
+
+    document.getElementById("output").innerHTML = text;
+}
+
+function copyText(){
+    const text = document.getElementById("output").innerText;
+    navigator.clipboard.writeText(text);
+}
+
+function clearAll(){
+    document.getElementById("input").value="";
+    document.getElementById("output").innerHTML="";
+}
+
+</script>
+
+</body>
+</html>
