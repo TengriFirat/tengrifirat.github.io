@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tengri Metin Aracı</title>
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+    margin:0;
+    padding:20px;
+    font-family:Arial,sans-serif;
+    color:white;
+
+    /* 🔥 ARKA PLAN (KESİN ÇALIŞIR) */
+    background-image:url("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Tengri_symbol.jpg/1024px-Tengri_symbol.jpg");
+    background-size:cover;
+    background-position:center;
+    min-height:100vh;
+}
+
+/* 🔥 KARARTMA (ARKA PLANI ÖLDÜRMEZ) */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.60);
+    z-index:0;
+}
+
+/* SAYFA İÇERİK ÜSTTE */
+body > *{
+    position:relative;
+    z-index:1;
+}
+
+/* ÜST BUTON */
+.top-nav{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.nav-btn{
+    display:inline-block;
+    background:#000;
+    color:#fff;
+    text-decoration:none;
+    border:1px solid #333;
+    padding:10px 18px;
+    border-radius:6px;
+    font-weight:bold;
+}
+
+/* INPUT */
+textarea{
+    width:100%;
+    height:180px;
+    background:#0d1628;
+    color:white;
+    border:1px solid #23324d;
+    padding:12px;
+    margin-bottom:10px;
+}
+
+/* OUTPUT */
+#output{
+    width:100%;
+    min-height:200px;
+    background:rgba(13,22,40,0.85);
+    border:1px solid #23324d;
+    padding:12px;
+    outline:none;
+    white-space:pre-wrap;
+    border-radius:6px;
+}
+
+/* BUTTON */
+button{
+    background:#000;
+    color:#fff;
+    border:1px solid #333;
+    padding:10px 15px;
+    margin-right:10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+button:hover{background:#1a1a1a;}
+
+/* YASAKLI KELİME */
+.red{
+    color:#ff4040;
+    font-weight:bold;
+}
+
+/* ===================== */
+/* DAĞ SİLÜETİ */
+/* ===================== */
+
+.mountain{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:180px;
+    z-index:0;
+    pointer-events:none;
+}
+
+.mountain svg path{
+    fill:#07101f;
+}
+
+/* ===================== */
+/* TENGRİ ANİMASYON */
+/* ===================== */
+
+.watermark{
+    position:fixed;
+    bottom:25px;
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    font-size:46px;
+    font-weight:900;
+    letter-spacing:10px;
+    pointer-events:none;
+    user-select:none;
+
+    background:linear-gradient(90deg,#ffb300,#ff5500,#fff,#ff5500,#ffb300);
+    background-size:300% 100%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation: glow 4s linear infinite, pulse 2s ease-in-out infinite;
+}
+
+@keyframes glow{
+    0%{background-position:0%;}
+    100%{background-position:300%;}
+}
+
+@keyframes pulse{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.05);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ÜST BUTON -->
+<div class="top-nav">
+    <a href="https://tengrifirat2.github.io/" class="nav-btn">
+        Türkçe Yazım Düzenleyici
+    </a>
+</div>
+
+<h2>Metni yapıştır</h2>
+
+<textarea id="input"></textarea>
+
+<div>
+    <button onclick="cleanText()">Temizle</button>
+    <button onclick="copyText()">Kopyala</button>
+    <button onclick="clearAll()">Sil</button>
+</div>
+
+<div id="output" contenteditable="true"></div>
+
+<!-- DAĞ -->
+<div class="mountain">
+<svg viewBox="0 0 1000 200" preserveAspectRatio="none">
+<path d="M0,200 L150,120 L300,170 L450,80 L600,150 L750,90 L900,140 L1000,100 L1000,200 Z"/>
+</svg>
+</div>
+
+<!-- TENGRİ -->
+<div class="watermark">
+⚔️ TENGRİ ⚔️
+</div>
+
+<script>
+
+function cleanText(){
+
+    let text = document.getElementById("input").value;
+
+    text = text.replace(/\u00A0/g," ");
+
+    text = text
+        .split("\n")
+        .map(l => l.replace(/\s+/g," ").trim())
+        .filter(l => l.length>0)
+        .join("\n");
+
+    const keywords = [
+        "yüksek kaliteli",
+        "yüksek kalite",
+        "hakiki deri",
+        "gerçek deri",
+        "unisex",
+        "birinci sınıf",
+        "1. kalite",
+        "1. sınıf",
+        "%100 deri"
+    ];
+
+    keywords.forEach(word=>{
+        const regex = new RegExp(word,"gi");
+        text = text.replace(regex, match=>{
+            return `<span class="red">${match}</span>`;
+        });
+    });
+
+    document.getElementById("output").innerHTML = text;
+}
+
+function copyText(){
+    navigator.clipboard.writeText(document.getElementById("output").innerText);
+}
+
+function clearAll(){
+    document.getElementById("input").value="";
+    document.getElementById("output").innerHTML="";
+}
+
+</script>
+
+</body>
+</html>
