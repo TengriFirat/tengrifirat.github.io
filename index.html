@@ -10,8 +10,26 @@
    EPIC PREMIUM COLOR THEMES (MAT, AĞIRBAŞLI VE LÜKS)
    ========================================================================== */
 
-/* 1. DEFAULT: CYBER CRIMSON (MAT PREMİUM KIRMIZI) */
+/* 1. DEFAULT: MIDNIGHT OLED (ZİFİRİ MAT DERİN SİYAH) */
 :root {
+    --bg-main: #000000;
+    --bg-container: #09090a;
+    --bg-input: #020203;
+    --bg-btn: #121214;
+    --bg-btn-hover: #1a1a1e;
+    --bg-tab-active: #1a1a1e;
+    --text-main: #8e8e93;
+    --text-input: #f2f2f7;
+    --text-heading: #ffffff;
+    --text-btn: #aeaeb2;
+    --border-color: #242426;
+    --border-container: #1c1c1e;
+    --accent-color: #f2f2f7; 
+    --accent-glow: rgba(255, 255, 255, 0.15);
+}
+
+/* 2. CYBER CRIMSON (MAT PREMİUM KIRMIZI) */
+html[data-theme="crimson"] {
     --bg-main: #0c0808;
     --bg-container: #161010;
     --bg-input: #080505;
@@ -28,7 +46,7 @@
     --accent-glow: rgba(214, 40, 40, 0.4);
 }
 
-/* 2. DEEP SAPPHIRE (SOYLU LACİVERT / SAFİR) */
+/* 3. DEEP SAPPHIRE (SOYLU LACİVERT / SAFİR) */
 html[data-theme="blue"] {
     --bg-main: #080c14;
     --bg-container: #101624;
@@ -46,7 +64,7 @@ html[data-theme="blue"] {
     --accent-glow: rgba(0, 119, 182, 0.4);
 }
 
-/* 3. EMERALD VELVET (LÜKS İNGİLİZ YEŞİLİ) */
+/* 4. EMERALD VELVET (LÜKS İNGİLİZ YEŞİLİ) */
 html[data-theme="green"] {
     --bg-main: #060c08;
     --bg-container: #0d1a12;
@@ -64,7 +82,7 @@ html[data-theme="green"] {
     --accent-glow: rgba(45, 106, 79, 0.4);
 }
 
-/* 4. AMETHYST DUSK (DERİN ASTRO MOR) */
+/* 5. AMETHYST DUSK (DERİN ASTRO MOR) */
 html[data-theme="purple"] {
     --bg-main: #0a0712;
     --bg-container: #151024;
@@ -82,7 +100,43 @@ html[data-theme="purple"] {
     --accent-glow: rgba(114, 9, 183, 0.4);
 }
 
-/* 5. IMPERIAL AMBER (MAT ALTIN / KEHRİBAR) */
+/* 6. ROSE QUARTZ (AĞIRBAŞLI PREMİUM PEMBE) */
+html[data-theme="pink"] {
+    --bg-main: #0f070b;
+    --bg-container: #1f1019;
+    --bg-input: #0a0408;
+    --bg-btn: #331a29;
+    --bg-btn-hover: #472439;
+    --bg-tab-active: #472439;
+    --text-main: #cda2bd;
+    --text-input: #faf0f6;
+    --text-heading: #ffffff;
+    --text-btn: #ff758f;
+    --border-color: #592d47;
+    --border-container: #422135;
+    --accent-color: #ff4d6d; 
+    --accent-glow: rgba(255, 77, 109, 0.4);
+}
+
+/* 7. MUTED GOLD (AĞIRBAŞLI LÜKS SARI) */
+html[data-theme="yellow"] {
+    --bg-main: #0d0c04;
+    --bg-container: #1c1a09;
+    --bg-input: #090802;
+    --bg-btn: #2e2a10;
+    --bg-btn-hover: #403b16;
+    --bg-tab-active: #403b16;
+    --text-main: #cfcb9e;
+    --text-input: #fbfbfa;
+    --text-heading: #ffffff;
+    --text-btn: #ffd166;
+    --border-color: #524b1c;
+    --border-container: #3d3815;
+    --accent-color: #ffb703; 
+    --accent-glow: rgba(255, 183, 3, 0.4);
+}
+
+/* 8. IMPERIAL AMBER (MAT KEHRİBAR / TURUNCU) */
 html[data-theme="orange"] {
     --bg-main: #0d0a06;
     --bg-container: #1c150d;
@@ -100,7 +154,7 @@ html[data-theme="orange"] {
     --accent-glow: rgba(230, 126, 34, 0.4);
 }
 
-/* 6. TITANIUM SLATE (GUNMETAL / ENDÜSTRİYEL GRİ) */
+/* 9. TITANIUM SLATE (GUNMETAL GRİ) */
 html[data-theme="slate"] {
     --bg-main: #121315;
     --bg-container: #1e2024;
@@ -118,7 +172,7 @@ html[data-theme="slate"] {
     --accent-glow: rgba(0, 180, 216, 0.3);
 }
 
-/* 7. OBSIDIAN WHITE (YUMUŞAK PLATİN PLAZA MODU) */
+/* 10. OBSIDIAN WHITE (YUMUŞAK PLATİN SUITE) */
 html[data-theme="white"] {
     --bg-main: #f1f3f6;
     --bg-container: #ffffff;
@@ -134,24 +188,6 @@ html[data-theme="white"] {
     --border-container: #e2e8f0;
     --accent-color: #2d3748; 
     --accent-glow: rgba(45, 55, 72, 0.1);
-}
-
-/* 8. MIDNIGHT OLED (ZİFİRİ MAT SİYAH) */
-html[data-theme="midnight"] {
-    --bg-main: #000000;
-    --bg-container: #09090a;
-    --bg-input: #020203;
-    --bg-btn: #121214;
-    --bg-btn-hover: #1a1a1e;
-    --bg-tab-active: #1a1a1e;
-    --text-main: #8e8e93;
-    --text-input: #f2f2f7;
-    --text-heading: #ffffff;
-    --text-btn: #aeaeb2;
-    --border-color: #242426;
-    --border-container: #1c1c1e;
-    --accent-color: #f2f2f7; 
-    --accent-glow: rgba(255, 255, 255, 0.15);
 }
 
 *{box-sizing:border-box;}
@@ -380,17 +416,19 @@ h3 {
 
 <body>
 
-<!-- DÜZELTİLMİŞ PREMIUM TEMA SEÇİCİ -->
+<!-- GÜNCEL TEMA SEÇİCİ -->
 <div class="theme-selector">
     <span class="theme-label">PREMIUM SUITE:</span>
-    <div class="theme-dot id-dark-dot active" style="background: #d62828;" onclick="changeTheme('dark', this)" title="Cyber Crimson (Mat Kırmızı)"></div>
+    <div class="theme-dot id-dark-dot active" style="background: #1c1c1e; border: 1px solid #3a3a3c;" onclick="changeTheme('dark', this)" title="Midnight OLED (Derin Siyah)"></div>
+    <div class="theme-dot" style="background: #d62828;" onclick="changeTheme('crimson', this)" title="Cyber Crimson (Mat Kırmızı)"></div>
     <div class="theme-dot" style="background: #0077b6;" onclick="changeTheme('blue', this)" title="Deep Sapphire (Soylu Mavi)"></div>
     <div class="theme-dot" style="background: #2d6a4f;" onclick="changeTheme('green', this)" title="Emerald Velvet (Zümrüt Yeşil)"></div>
     <div class="theme-dot" style="background: #7209b7;" onclick="changeTheme('purple', this)" title="Amethyst Dusk (Asil Mor)"></div>
+    <div class="theme-dot" style="background: #ff4d6d;" onclick="changeTheme('pink', this)" title="Rose Quartz (Mat Pembe)"></div>
+    <div class="theme-dot" style="background: #ffb703;" onclick="changeTheme('yellow', this)" title="Muted Gold (Mat Asil Sarı)"></div>
     <div class="theme-dot" style="background: #e67e22;" onclick="changeTheme('orange', this)" title="Imperial Amber (Kehribar Altın)"></div>
     <div class="theme-dot" style="background: #474d59;" onclick="changeTheme('slate', this)" title="Titanium Slate (Gunmetal Gri)"></div>
     <div class="theme-dot" style="background: #ffffff; border: 1px solid #cbd5e1;" onclick="changeTheme('white', this)" title="Obsidian White (Yumuşak Platin)"></div>
-    <div class="theme-dot" style="background: #1c1c1e;" onclick="changeTheme('midnight', this)" title="Midnight OLED (Derin Siyah)"></div>
 </div>
 
 <div id="toast-notification" class="toast">⚡ METİN BAŞARIYLA KOPYALANDI!</div>
@@ -605,7 +643,7 @@ function clear2(){
     calculateMeta(2);
 }
 
-/* 🎯 OTOMATİK SİYAH PREMİUM TEMA BAŞLANGIÇ TETİKLEYİCİSİ */
+/* 🎯 OTOMATİK DERİN SİYAH (MIDNIGHT OLED) BAŞLANGIÇ TETİKLEYİCİSİ */
 window.addEventListener("DOMContentLoaded", function() {
     const darkDot = document.querySelector(".id-dark-dot");
     if (darkDot) {
