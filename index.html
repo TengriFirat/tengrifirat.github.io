@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tengri Panel</title>
+<title>Tengri Panel v5.0 - Oracle Edition</title>
 
 <style>
 /* ==========================================================================
@@ -193,7 +193,7 @@ html[data-theme="white"] {
 *{box-sizing:border-box;}
 
 html, body, .input-area, div { cursor: default; }
-button, .tab-btn, .theme-dot { cursor: pointer; }
+button, .tab-btn, .theme-dot, .oracle-sphere { cursor: pointer; }
 
 body {
     margin:0;
@@ -240,6 +240,89 @@ body {
     border-color: var(--text-heading) !important;
     transform: scale(1.1);
     box-shadow: 0 0 12px var(--accent-color);
+}
+
+/* ==========================================================================
+   🔮 TENGRİ KEHANET MERKEZİ (ORACLE SEKTÖRÜ)
+   ========================================================================== */
+.oracle-box {
+    max-width: 900px;
+    margin: 0 auto 25px auto;
+    background: var(--bg-container);
+    border: 1px solid var(--border-container);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+}
+.oracle-sphere-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+.oracle-sphere {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--text-heading), var(--accent-color));
+    box-shadow: 0 0 20px var(--accent-glow), inset -5px -5px 15px rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    user-select: none;
+}
+.oracle-sphere:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: 0 0 30px var(--accent-color), inset -2px -2px 10px rgba(0,0,0,0.4);
+}
+.oracle-sphere:active {
+    transform: scale(0.95);
+}
+.oracle-text-area {
+    flex-grow: 1;
+}
+.oracle-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.oracle-quote {
+    font-size: 14px;
+    color: var(--text-input);
+    font-style: italic;
+    line-height: 1.5;
+    transition: opacity 0.2s ease;
+}
+.pulse-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--accent-color);
+    opacity: 0.15;
+    animation: spherePulse 2s infinite ease-in-out;
+    top: 0; left: 0; pointer-events: none;
+}
+@keyframes spherePulse {
+    0% { transform: scale(1); opacity: 0.2; }
+    50% { transform: scale(1.3); opacity: 0; }
+    100% { transform: scale(1); opacity: 0.2; }
+}
+.glitch-effect {
+    animation: textGlitch 0.2s linear 2;
+}
+@keyframes textGlitch {
+    0% { transform: translate(2px, 1px); opacity: 0.7; }
+    50% { transform: translate(-1px, -1px); opacity: 0.9; }
+    100% { transform: translate(0, 0); opacity: 1; }
 }
 
 /* SEKME ALANI */
@@ -416,9 +499,9 @@ h3 {
 
 <body>
 
-<!-- GÜNCEL TEMA SEÇİCİ -->
+<!-- PREMIUM TEMA SEÇİCİ -->
 <div class="theme-selector">
-    <span class="theme-label">TEMA:</span>
+    <span class="theme-label">PREMIUM SUITE:</span>
     <div class="theme-dot id-dark-dot active" style="background: #1c1c1e; border: 1px solid #3a3a3c;" onclick="changeTheme('dark', this)" title="Midnight OLED (Derin Siyah)"></div>
     <div class="theme-dot" style="background: #d62828;" onclick="changeTheme('crimson', this)" title="Cyber Crimson (Mat Kırmızı)"></div>
     <div class="theme-dot" style="background: #0077b6;" onclick="changeTheme('blue', this)" title="Deep Sapphire (Soylu Mavi)"></div>
@@ -429,6 +512,18 @@ h3 {
     <div class="theme-dot" style="background: #e67e22;" onclick="changeTheme('orange', this)" title="Imperial Amber (Kehribar Altın)"></div>
     <div class="theme-dot" style="background: #474d59;" onclick="changeTheme('slate', this)" title="Titanium Slate (Gunmetal Gri)"></div>
     <div class="theme-dot" style="background: #ffffff; border: 1px solid #cbd5e1;" onclick="changeTheme('white', this)" title="Obsidian White (Yumuşak Platin)"></div>
+</div>
+
+<!-- 🔮 NEW: TENGRİ KEHANET MERKEZİ -->
+<div class="oracle-box">
+    <div class="oracle-sphere-wrapper">
+        <div class="pulse-glow"></div>
+        <div class="oracle-sphere" onclick="getTengriOracle()">🔮</div>
+    </div>
+    <div class="oracle-text-area">
+        <div class="oracle-title">⚡ TENGRİ ORACLE / GÜNÜN SİBER KEHANETİ</div>
+        <div id="oracle-display" class="oracle-quote">Küreye tıkla ve siber kaderinle yüzleş aslan parçası...</div>
+    </div>
 </div>
 
 <div id="toast-notification" class="toast">⚡ METİN BAŞARIYLA KOPYALANDI!</div>
@@ -481,6 +576,79 @@ h3 {
 <div class="watermark">TENGRİ</div>
 
 <script>
+
+/* 50 ADET KUSURSUZ RANDOM TENGRİ FALI / KEHANETİ */
+const oracleQuotes = [
+    "Bugün metinlerden sileceğin gereksiz boşluklar gibi, hayatındaki gereksiz insanları da şak diye sileceksin. Temiz ferah gün yakın.",
+    "Büyük bir kurumsal kriz kapıda ama sakin ol, seninle alakası yok. Kahvenden bir yudum al ve izle.",
+    "Gözüm metnindeki gizli 'Yüksek Kalite' ibarelerini arıyor... Yapma öyle şeyler, Tengri görüyor.",
+    "Bugün copy-paste yaparken elin hiç titremeyecek. Kusursuz bir CTRL+C performansı seziyorum.",
+    "O beklediğin mail veya mesaj bugün gelecek. Gelmezse de karşı tarafın vizyonsuzluğudur, boşver.",
+    "Yapay zeka senin işini elinden almayacak ama o kahveyi şimdi tazelemezsen uykun kesin alacak.",
+    "Yakın zamanda bir revizyon yiyeceksin ama öyle bir düzelteceksin ki isteyen utancından istifa edecek.",
+    "Küre diyor ki: Excel'deki o gizemli formül hatasını bugün çözeceksin. Büyük aydınlanma yakın.",
+    "Hayatındaki bazı insanlar tıpkı '&nbsp;' gibi; varlar ama hiçbir işe yaramıyorlar, sadece yer kaplıyorlar.",
+    "Bugün şanslı günündesin. Yapıştırdığın metin tek seferde dümdüz olacak, uğraştırmayacak.",
+    "Plaza dilencilerinin attığı o anlamsız 'As per our discussion' maillerine karşı bağışıklık kazanacağın bir gün.",
+    "Bugün birisi sana 'Bakar mısın?' diyecek. Duymamazlıktan gel, iş yıkmaya çalışıyorlar.",
+    "Kaderinde yakın zamanda bir zam, terfi veya en kötü ihtimalle çok tatlı bir öğle yemeği ısmarlanması var.",
+    "Metnini temizledin, peki ya zihnini? Bir ara arkana yaslan ve derin bir nefes al şampiyon.",
+    "Bugün kurumsal dünyayı dize getirebilecek bir enerjiye sahipsin ama canın istemiyor, çok haklısın.",
+    "Gelecekte harika bir tatil görüyorum. Ama o geleceğe daha çok var, şimdi şu metni hallet.",
+    "Siber evren sana mesaj gönderiyor: 'Bugün o klavyeye biraz daha yumuşak bas, o da bir can.'",
+    "Seni çekemeyenlerin algoritması çöksün, tarayıcıları kapansın, ramleri yansın. Sen devam et.",
+    "Bugün yapacağın en büyük hata, biten işi teslim ettikten sonra 'Başka bir şey var mıydı?' diye sormak olur. Sorma.",
+    "Küre bugün seni çok asil gördü. Midnight OLED teması bile karizmanın yanında sönük kalıyor.",
+    "Yıldızın parlıyor! Bugün attığın her Slack/Teams mesajı tam olarak gitmesi gereken yere ulaşacak.",
+    "Bugün karşına çıkacak saçmalıklara karşı sabrın, bu panelin siyahlığı kadar derin ve sınırsız olsun.",
+    "Metindeki çift boşlukları avladığın gibi hayattaki iki yüzlüleri de avlayacağın keskin bir gün.",
+    "Günün tavsiyesi: O sekmeyi kapat. Hangi sekme olduğunu biliyorsun. Kapat gitsin.",
+    "Bugün o meşhur ' toplantı olmasaydı maille çözülürdü' aydınlanmasını tam 3 kez yaşayacaksın.",
+    "Küre fısıldıyor: Akşama güzel bir dizi/film patlat, bütün günün yükünü silsin süpürsün.",
+    "Yazım hatalarını düzelttiğin gibi hayatına da ince bir ayar çekiyorsun. Doğru yoldasın.",
+    "Bugün müşteriden gelen 'Elinize sağlık çok güzel olmuş' mesajını göreceksin. (Şaka şaka, revizyon var).",
+    "İçinden bir ses 'Bırak git' diyor ama cüzdanın 'Dur yolcu' diye fısıldıyor. Çalışmaya devam.",
+    "Birazdan kopyalayacağın metin, gideceği yerde büyük bir hayranlıkla okunacak. Gurur duy.",
+    "Bugün tarayıcında 40'tan fazla sekme açılacak. Bilgisayarına iyi davran, o senin yoldaşın.",
+    "Günün kehaneti: Bugün klavyene dökülmeyen her kahve, senin için büyük bir zaferdir.",
+    "Tengri diyor ki: Akşamki yemeğin tuzu tam kıvamında olacak, keyfin yerine gelecek.",
+    "Metninde hiç yasaklı kelime çıkmadı mı? İşte profesyonelliğin saf ve temiz hali. Helal olsun.",
+    "Bugün 'Bakarız' denen her şeyin aslında 'Asla yapmayacağız' anlamına geldiğini bir kez daha anlayacaksın.",
+    "Siber kaderinde büyük bir kahve molası var. Hak ettin, hadi git doldur gel.",
+    "Hayat bazen hatalı kodlar gibi karmaşıktır, ama unutmaman gereken şey: Her zaman bir geri al (CTRL+Z) tuşu vardır.",
+    "Bugün kurumsallık maskeni evde unutmuş gibisin, için kıpır kıpır. Geyik yapacak birini bul.",
+    "Yakın çevrenden biri sana gizli bir hayranlık besliyor. Muhtemelen bu paneli nasıl bu kadar hızlı kullandığına şaşırıyor.",
+    "Küreye göre bugün alacağın en iyi karar, işi tam zamanında bırakıp bilgisayarı kapatmak olacak.",
+    "Bugün internet hızın tavan yapacak, indirdiğin her dosya saniyeler içinde inecek. Saf lüks.",
+    "Metindeki tüm pislikleri temizledin. Artık tertemiz bir sayfan var. Hayatın da böyle ferah olsun.",
+    "Bugün biri sana 'Bunu acil yapar mısın?' diyecek. 'Acil' kelimesinin sözlük anlamını sorgulat ona.",
+    "Kafandaki düşünceler şu an temizlenmemiş bir HTML metni gibi karmakarışık. Bi' dur, sakinleş.",
+    "Bugün arkandan konuşanların tarayıcı geçmişi yanlışlıkla patronlarına mail gitsin. Amin.",
+    "Küre parlıyor: Bugün yapacağın işler gelecekteki rahatının temel taşları olacak. Sık dişini.",
+    "İçindeki siber gücü serbest bırak. Sen sadece bir metin düzenleyici kullanmıyorsun, operasyon yönetiyorsun.",
+    "Bugün kulaklığını tak ve dünyayı sessize al. Sadece sen, müziğin ve bu asil siyah panel.",
+    "Günün özlü sözü: Hatalı metin düzeltilir, hatalı insan zor. Metinlerle uğraşmaya devam.",
+    "Tengri Oracle görevini tamamladı. Şimdi o 'Kopyala' butonuna bas ve şovunu yap aslan parçası!"
+];
+
+function getTengriOracle() {
+    const display = document.getElementById("oracle-display");
+    
+    // Glitch efekti ve geçici kaybolma
+    display.classList.add("glitch-effect");
+    display.style.opacity = 0.3;
+    
+    setTimeout(() => {
+        const randomIndex = Math.floor(Math.random() * oracleQuotes.length);
+        display.innerText = oracleQuotes[randomIndex];
+        display.style.opacity = 1;
+        
+        setTimeout(() => {
+            display.classList.remove("glitch-effect");
+        }, 200);
+    }, 200);
+}
+
 
 /* TEMA MOTORU */
 function changeTheme(themeName, element) {
