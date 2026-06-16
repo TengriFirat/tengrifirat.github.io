@@ -25,9 +25,9 @@ body{
     font-family:'Courier New', Courier, monospace; 
     overflow-x:hidden;
     min-height: 100vh;
-    padding-bottom: 80px;
 }
 
+/* TABS CONTAINER */
 .tabs{
     display:flex;
     justify-content:center;
@@ -35,6 +35,7 @@ body{
     margin-bottom:30px;
 }
 
+/* DARK VE EPİK BUTONLAR */
 button, .tab-btn {
     background: #0a0a0c;
     color: #64748b;
@@ -56,6 +57,7 @@ button:hover, .tab-btn:hover {
     box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
 }
 
+/* AKTİF TAB */
 .tab-btn.active {
     background: #18181b;
     color: #ef4444;
@@ -63,6 +65,7 @@ button:hover, .tab-btn:hover {
     box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
 }
 
+/* İÇERİK ALANI */
 .container{
     position:relative;
     width:100%;
@@ -101,6 +104,7 @@ h3 {
     padding-left: 10px;
 }
 
+/* METİN ALANLARI */
 textarea, .output{
     width:100%;
     height:220px;
@@ -113,7 +117,7 @@ textarea, .output{
     border-radius: 4px;
     outline: none;
     transition: all 0.3s;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 textarea:focus, .output:focus {
@@ -128,6 +132,18 @@ textarea:focus, .output:focus {
     border-style: dashed;
 }
 
+/* METİN BİLGİSİ (SAYAÇLAR) */
+.meta-info {
+    font-size: 11px;
+    color: #4b5563;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 15px;
+}
+.meta-info span strong {
+    color: #86efac;
+}
+
 .action-buttons {
     margin-bottom: 25px;
     display: flex;
@@ -135,6 +151,7 @@ textarea:focus, .output:focus {
     flex-wrap: wrap;
 }
 
+/* SİBER KIRMIZI YASAKLI KELİME */
 .bad-word{
     color:#ff0000;
     font-weight:bold;
@@ -144,43 +161,27 @@ textarea:focus, .output:focus {
     border-radius:2px;
 }
 
-/* GERÇEK AKTİF KULLANICI PANELİ */
-.counter-panel {
+/* NEON BİLDİRİM TOAST */
+.toast {
     position: fixed;
-    bottom: 15px;
+    top: -100px;
     right: 20px;
     background: #070709;
-    border: 1px solid #18181b;
-    padding: 8px 16px;
+    border: 1px solid #ef4444;
+    color: #fff;
+    padding: 12px 24px;
     border-radius: 4px;
-    font-size: 12px;
-    color: #64748b;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    z-index: 9999;
-}
-
-.live-dot {
-    width: 6px;
-    height: 6px;
-    background-color: #22c55e; 
-    border-radius: 50%;
-    box-shadow: 0 0 8px #22c55e;
-    animation: blink 1.5s infinite;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-}
-
-#user-count {
-    color: #22c55e;
+    font-size: 13px;
     font-weight: bold;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+    transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 10000;
+}
+.toast.show {
+    top: 20px;
 }
 
+/* WATERMARK */
 .watermark{
     position:fixed;
     bottom:30px;
@@ -206,6 +207,8 @@ textarea:focus, .output:focus {
 
 <body>
 
+<div id="toast-notification" class="toast">⚔️ METİN KOPYALANDI!</div>
+
 <div class="tabs">
     <button class="tab-btn active" onclick="openTab(0)">🧹 Boşluk Temizleyici</button>
     <button class="tab-btn" onclick="openTab(1)">✍️ Yazım Düzenleyici</button>
@@ -215,9 +218,17 @@ textarea:focus, .output:focus {
 
     <div class="tab-content active">
         <h3>Metni buraya yapıştır aslan parçası</h3>
-        <textarea id="input1"></textarea>
+        <textarea id="input1" oninput="calculateMeta(1)"></textarea>
+        
+        <div class="meta-info">
+            <span id="char-count-1">Karakter: <strong>0</strong></span>
+            <span id="word-count-1">Kelime: <strong>0</strong></span>
+        </div>
+
         <div class="action-buttons">
             <button onclick="cleanSpaces()">Temizle</button>
+            <button onclick="makeUppercase(1)">Aaa -> AAA</button>
+            <button onclick="makeLowercase(1)">AAA -> aaa</button>
             <button onclick="copy1()">Kopyala</button>
             <button onclick="clear1()">Sil</button>
         </div>
@@ -226,9 +237,17 @@ textarea:focus, .output:focus {
 
     <div class="tab-content">
         <h3>Metni buraya yapıştır aslan parçası</h3>
-        <textarea id="input2"></textarea>
+        <textarea id="input2" oninput="calculateMeta(2)"></textarea>
+
+        <div class="meta-info">
+            <span id="char-count-2">Karakter: <strong>0</strong></span>
+            <span id="word-count-2">Kelime: <strong>0</strong></span>
+        </div>
+
         <div class="action-buttons">
             <button onclick="fixText()">Düzelt</button>
+            <button onclick="makeUppercase(2)">Aaa -> AAA</button>
+            <button onclick="makeLowercase(2)">AAA -> aaa</button>
             <button onclick="copy2()">Kopyala</button>
             <button onclick="clear2()">Sil</button>
         </div>
@@ -237,41 +256,47 @@ textarea:focus, .output:focus {
 
 </div>
 
-<div class="counter-panel">
-    <div class="live-dot"></div>
-    <span>Şu an aktif: <span id="user-count">1</span> savaşçı</span>
-</div>
-
 <div class="watermark">TENGRİ</div>
 
 <script>
 
-/* HAZIR VE BAĞIMSIZ GERÇEK ZAMANLI SAYAÇ SERVİSİ */
-const namespace = "tengri_panel_unique_key_2026"; 
-const key = "active_users";
-
-function signalPresence() {
-    // Sunucuya "buradayım" sinyali gönderip güncel sayıyı alıyoruz
-    fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
-        .then(res => res.json())
-        .then(data => {
-            // Servis sağlayıcılarının yoğunluğuna göre bazen doğrudan toplam hit'i verebilir.
-            // Sayfayı her yenileyen/açan kişi sayısı burada senkronize şekilde artar.
-            document.getElementById("user-count").innerText = data.value ? Math.ceil(data.value / 100) + 1 : 1;
-        })
-        .catch(() => {
-            // Eğer harici servislerde anlık bir kesinti olursa varsayılan güvenli sayıya çeker
-            document.getElementById("user-count").innerText = "1";
-        });
+/* KOPYALANDI BİLDİRİMİ SİSTEMİ */
+function showToast() {
+    const toast = document.getElementById("toast-notification");
+    toast.classList.add("show");
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2000);
 }
 
-// Sayfa açıldığında tetikle
-signalPresence();
-// Her 10 saniyede bir diğer cihazların durumunu kontrol etmesi için yenile
-setInterval(signalPresence, 10000);
+/* ANLIK KARAKTER VE KELİME SAYAÇLARI */
+function calculateMeta(tabIndex) {
+    const text = document.getElementById(`input${tabIndex}`).value;
+    const charCount = text.length;
+    const wordCount = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+    
+    document.getElementById(`char-count-${tabIndex}`).innerHTML = `Karakter: <strong>${charCount}</strong>`;
+    document.getElementById(`word-count-${tabIndex}`).innerHTML = `Kelime: <strong>${wordCount}</strong>`;
+}
+
+/* BÜYÜK / KÜÇÜK HARF MODÜLLERİ */
+function makeUppercase(tabIndex) {
+    const inputArea = document.getElementById(`input${tabIndex}`);
+    // Türkçe karakterleri de kapsayacak şekilde büyütme
+    inputArea.value = inputArea.value.toLocaleUpperCase('tr-TR');
+    calculateMeta(tabIndex);
+    if(tabIndex === 1) cleanSpaces(); else fixText();
+}
+
+function makeLowercase(tabIndex) {
+    const inputArea = document.getElementById(`input${tabIndex}`);
+    inputArea.value = inputArea.value.toLocaleLowerCase('tr-TR');
+    calculateMeta(tabIndex);
+    if(tabIndex === 1) cleanSpaces(); else fixText();
+}
 
 
-/* TAB GEÇİŞLERİ */
+/* TAB GEÇİŞLERI */
 function openTab(i){
     document.querySelectorAll(".tab-content").forEach(t=>t.classList.remove("active"));
     document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
@@ -282,9 +307,27 @@ function openTab(i){
 
 /* YASAKLI KELİMELER */
 const bannedWords = [
-    "yüksek kalite", "yüksek kaliteli", "hakiki deri", "gerçek deri", "%100 deri", "% 100 deri",
-    "birinci sınıf", "1. kalite", "1. sınıf", "unisex", "1.sınıf", "1.kalite", "1.kalıte",
-    "1. kalıte", "1.SINIF", "1. SINIF", "1.KALİTE", "1. KALİTE", "BİRİNCİ SINIF", "YÜKSEK KALİTE", "YÜKSEK KALITE"
+    "yüksek kalite",
+    "yüksek kaliteli",
+    "hakiki deri",
+    "gerçek deri",
+    "%100 deri",
+    "% 100 deri",
+    "birinci sınıf",
+    "1. kalite",
+    "1. sınıf",
+    "unisex",
+    "1.sınıf",
+    "1.kalite",
+    "1.kalıte",
+    "1. kalıte",
+    "1.SINIF",
+    "1. SINIF",
+    "1.KALİTE",
+    "1. KALİTE",
+    "BİRİNCİ SINIF",
+    "YÜKSEK KALİTE",
+    "YÜKSEK KALITE"
 ];
 
 function escapeRegExp(str){
@@ -295,35 +338,91 @@ function highlight(text){
     bannedWords.forEach(word=>{
         const pattern = escapeRegExp(word).replace(/\s+/g,"\\s+");
         const reg = new RegExp(pattern,"gi");
-        text = text.replace(reg, m=>{ return `<span class="bad-word">${m}</span>`; });
+
+        text = text.replace(reg, m=>{
+            return `<span class="bad-word">${m}</span>`;
+        });
     });
+
     return text;
 }
 
 /* TAB 1 FONKSİYONLARI */
 function cleanSpaces(){
     let t = document.getElementById("input1").value;
-    t = t.replace(/&nbsp;/gi," ").replace(/nbsp;/gi," ").replace(/;nbsp/gi," ").replace(/\u00A0/g," ");
-    t = t.split("\n").map(line => line.replace(/[ \t]+/g," ").trim()).filter(line => line.length > 0).join("\n");
+
+    t = t
+        .replace(/&nbsp;/gi," ")
+        .replace(/nbsp;/gi," ")
+        .replace(/;nbsp/gi," ")
+        .replace(/\u00A0/g," ");
+
+    t = t
+        .split("\n")
+        .map(line => line.replace(/[ \t]+/g," ").trim())
+        .filter(line => line.length > 0)
+        .join("\n");
+
     document.getElementById("output1").innerHTML = highlight(t);
 }
 
-function copy1(){ navigator.clipboard.writeText(document.getElementById("output1").innerText); }
-function clear1(){ document.getElementById("input1").value=""; document.getElementById("output1").innerHTML=""; }
+function copy1(){
+    navigator.clipboard.writeText(
+        document.getElementById("output1").innerText
+    );
+    showToast();
+}
+
+function clear1(){
+    document.getElementById("input1").value="";
+    document.getElementById("output1").innerHTML="";
+    calculateMeta(1);
+}
 
 /* TAB 2 FONKSİYONLARI */
 function fixText(){
     let text = document.getElementById("input2").value;
-    text = text.replace(/&nbsp;/gi," ").replace(/nbsp;/gi," ").replace(/;nbsp/gi," ").replace(/\u00A0/g," ").replace(/[ \t]+/g," ").trim().toLowerCase();
-    text = text.replace(/(^|[.!?]\s+)([a-zçğıöşü])/g, (match, p1, p2) => { return p1 + p2.toUpperCase(); });
+
+    text = text
+        .replace(/&nbsp;/gi," ")
+        .replace(/nbsp;/gi," ")
+        .replace(/;nbsp/gi," ")
+        .replace(/\u00A0/g," ")
+        .replace(/[ \t]+/g," ")
+        .trim()
+        .toLowerCase();
+
+    /* Nokta/ünlem/soru sonrası büyük harf */
+    text = text.replace(/(^|[.!?]\s+)([a-zçğıöşü])/g, (match, p1, p2) => {
+        return p1 + p2.toUpperCase();
+    });
+
     let lines = text.split("\n");
-    lines = lines.map(line=>{ line = line.trim(); if(!line) return ""; return highlight(line); });
+
+    lines = lines.map(line=>{
+        line = line.trim();
+        if(!line) return "";
+        return highlight(line);
+    });
+
     lines = lines.filter(line => line !== "");
+
     document.getElementById("output2").innerHTML = lines.join("<br>");
 }
 
-function copy2(){ navigator.clipboard.writeText(document.getElementById("output2").innerText); }
-function clear2(){ document.getElementById("input2").value=""; document.getElementById("output2").innerHTML=""; }
+function copy2(){
+    navigator.clipboard.writeText(
+        document.getElementById("output2").innerText
+    );
+    showToast();
+}
+
+function clear2(){
+    document.getElementById("input2").value="";
+    document.getElementById("output2").innerHTML="";
+    calculateMeta(2);
+}
+
 </script>
 
 </body>
