@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tengri Panel Ultra</title>
+<title>Tengri Panel Alpha</title>
 
 <style>
 /* ==========================================================================
@@ -600,7 +600,7 @@ const oracleQuotes = [
     "Bugün o meşhur 'toplantı olmasaydı maille çözülürdü' aydınlanmasını tam 3 kez yaşayacaksın.",
     "Küre fısıldıyor: Akşama güzel bir dizi/film patlat, bütün günün yükünü silsin süpürsün.",
     "Yazım hatalarını düzelttiğin gibi hayatına da ince bir ayar çekiyorsun. Doğru yoldasın.",
-    "Bugün müşteriden gelen 'Elinize sağlık çok güzel olmuş' mesajını göreceksin. (Şaka şaka, revizyon var).",
+    "Bugün müşteriden gelen 'Elinize sağlık çok güzel olmuş' mesajını göreceksini. (Şaka şaka, revizyon var).",
     "İçinden bir ses 'Bırak git' diyor ama cüzdanın 'Dur yolcu' diye fısıldıyor. Çalışmaya devam.",
     "Birazdan kopyalayacağın metin, gideceği yerde büyük bir hayranlıkla okunacak. Gurur duy.",
     "Bugün tarayıcında 40'tan fazla sekme açılacak. Bilgisayarına iyi davran, o senin yoldaşın.",
@@ -689,14 +689,33 @@ function highlight(text) {
 }
 
 /* ==========================================================================
-   🎯 ULTRA GELİŞMİŞ "SÜPER TEMİZLİK" METİN MOTORU (KESİN ÇÖZÜM)
+   🎯 ENKAPSÜLE EDİLMİŞ GÜVENLİ KALIN YAZI KORUMA VE BOŞLUK SİLME MOTORU
    ========================================================================== */
+
+function convertStylesToRealBold(element) {
+    // 1. Adım: Tüm dahili elementleri tarayıp style/weight kontrolü yapıyoruz
+    let allNodes = element.getElementsByTagName("*");
+    for (let i = allNodes.length - 1; i >= 0; i--) {
+        let el = allNodes[i];
+        let style = window.getComputedStyle(el);
+        
+        // Eğer element kalın yazı özelliğine sahip bir span veya div ise
+        if (style.fontWeight === "bold" || parseInt(style.fontWeight) >= 600) {
+            let bTag = document.createElement("b");
+            bTag.innerHTML = el.innerHTML;
+            el.parentNode.replaceChild(bTag, el);
+        }
+    }
+}
 
 function sanitizeHTMLStructure(htmlContent) {
     let tempDiv = document.createElement("div");
     tempDiv.innerHTML = htmlContent;
 
-    // Satır koruması için her blok elemanı (\n) işaretine dönüştürüyoruz
+    // Gizli inline-style kalınlıkları gerçek <b> etiketlerine çevir
+    convertStylesToRealBold(tempDiv);
+
+    // Satır takibi yapabilmek için paragraf, div ve listeleri \n ile ayır
     let blocks = tempDiv.querySelectorAll('p, div, br, li, tr');
     blocks.forEach(el => {
         if (el.tagName.toLowerCase() === 'br') {
@@ -707,16 +726,15 @@ function sanitizeHTMLStructure(htmlContent) {
         }
     });
 
-    // Sadece bold (strong, b) taglerini koru, diğer tüm span/style çöplerini kazı!
+    // Sadece gerçek <b> ve <strong> taglerini koru, geri kalan her şeyi erit!
     let allElements = tempDiv.getElementsByTagName("*");
     for (let i = allElements.length - 1; i >= 0; i--) {
         let el = allElements[i];
         let tagName = el.tagName.toLowerCase();
         if (tagName !== 'strong' && tagName !== 'b') {
-            // Elementin sadece içindeki metni/yapıyı tut, dış etiketini (span vb.) patlat
             el.outerHTML = el.innerHTML;
         } else {
-            // Bold etiketlerinin içindeki tüm gereksiz class ve style niteliklerini sıfırla
+            // Kalın etiketlerin üzerindeki tüm kirli class/style özniteliklerini kazı
             el.removeAttribute('style');
             el.removeAttribute('class');
             el.removeAttribute('id');
@@ -728,7 +746,7 @@ function sanitizeHTMLStructure(htmlContent) {
 function ultimateClean(txt, forceLowercase = false) {
     if (!txt) return "";
 
-    // 1. Aşama: Gizli sistem boşluklarını ve inatçı web kodlarını yok et
+    // Web sitelerinden gelen görünmez çöp karakterleri süpür
     let clean = txt
         .replace(/[\r\u200B\u200C\u200D\uFEFF]/g, "") 
         .replace(/&nbsp;/gi, " ")
@@ -742,10 +760,10 @@ function ultimateClean(txt, forceLowercase = false) {
         .replace(/&/g, " ")
         .replace(/;/g, " ");
 
-    // 2. Aşama: Teknik ifadeleri (B +, B -) jilet gibi sıfır boşluğa çek
+    // Teknik kutup ifadelerindeki inatçı boşlukları tamamen yok et (B+, B-)
     clean = clean.replace(/B\s*\+\s*/gi, "B+").replace(/B\s*-\s*/gi, "B-");
 
-    // 3. Aşama: Çoklu boşlukları ve tabları tek boşluğa indirge
+    // Geri kalan tüm çoklu boşlukları tek bir standart boşluğa düşür
     clean = clean.replace(/[ \t]+/g, " ");
 
     if (forceLowercase) {
@@ -758,31 +776,30 @@ function processUltraEngine(inputElementId, forceLowercase = false) {
     const inputArea = document.getElementById(inputElementId);
     if (!inputArea || !inputArea.innerHTML.trim()) return "";
 
-    // 1. Adım: HTML'deki tüm gereksiz span ve harici tarayıcı çöplerini soy
+    // 1. Adım: Yapıştırılan metindeki gizli kalın yazıları bularak zırhla koru
     let sanitizedHTML = sanitizeHTMLStructure(inputArea.innerHTML);
 
-    // 2. Adım: Satır satır parçala ve her satırı bağımsız olarak temizle
+    // 2. Adım: Satır bazlı ayırarak boş satır kontrolü yap
     let rawLines = sanitizedHTML.split('\n');
     let dynamicResultLines = [];
 
     rawLines.forEach(line => {
-        // Satırın içindeki bold taglerini koruyarak saf metin temizliği yapıyoruz
         let cleanedLine = ultimateClean(line, forceLowercase);
         
-        // Satırın gerçekten içi dolu mu (boş etiket mi kalmış) kontrolü
+        // Satırın içinde gerçekten okunabilir bir şey var mı testi (Boş etiketleri ele)
         let contentCheck = cleanedLine.replace(/<[^>]*>/g, "").replace(/\s+/g, "").trim();
         
         if (contentCheck !== "") {
             let finalizedLine = cleanedLine.trim();
             if (forceLowercase) {
-                // Türkçe dil kurallarına uygun cümle başı büyütme desteği
+                // Türkçe dil yapısına göre cümle başı kontrolü
                 finalizedLine = finalizedLine.replace(/(^|>|[.!?]\s+)([a-zçğıöşü])/g, (m, p1, p2) => p1 + p2.toLocaleUpperCase('tr-TR'));
             }
             dynamicResultLines.push(finalizedLine);
         }
     });
 
-    // Temizlenen satırları tek br ile birleştir ve yasaklı kelime filtresinden geçir
+    // Satırları tek bir br satır kırılımıyla bağla ve yasaklı kelime taraması yap
     return highlight(dynamicResultLines.join("<br>"));
 }
 
