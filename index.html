@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tengri Panel</title>
+<title>Tengri Panel Pro</title>
 
 <style>
 /* ==========================================================================
@@ -572,8 +572,6 @@ h3 {
 <div class="watermark">TENGRİ</div>
 
 <script>
-
-/* 50 ADET KUSURSUZ RANDOM TENGRİ FALI / KEHANETİ */
 const oracleQuotes = [
     "Bugün metinlerden sileceğin gereksiz boşluklar gibi, hayatındaki gereksiz insanları da şak diye sileceksin. Temiz ferah gün yakın.",
     "Büyük bir kurumsal kriz kapıda ama sakin ol, seninle alakası yok. Kahvenden bir yudum al ve izle.",
@@ -589,7 +587,7 @@ const oracleQuotes = [
     "Bugün birisi sana 'Bakar mısın?' diyecek. Duymamazlıktan gel, iş yıkmaya çalışıyorlar.",
     "Kaderinde yakın zamanda bir zam, terfi veya en kötü ihtimalle çok tatlı bir öğle yemeği ısmarlanması var.",
     "Metnini temizledin, peki ya zihnini? Bir ara arkana yaslan ve derin bir nefes al şampiyon.",
-    "Bugün kurumsal dünyayı dize getirebilecek bir enerjiye sahipsin ama canın istemiyor, çok haklısın.",
+    "Bugün kurumsal dünyayı dize getirebilecek bir energyye sahipsin ama canın istemiyor, çok haklısın.",
     "Gelecekte harika bir tatil görüyorum. Ama o geleceğe daha çok var, şimdi şu metni hallet.",
     "Siber evren sana mesaj gönderiyor: 'Bugün o klavyeye biraz daha yumuşak bas, o da bir can.'",
     "Seni çekemeyenlerin algoritması çöksün, tarayıcıları kapansın, ramleri yansın. Sen devam et.",
@@ -598,7 +596,7 @@ const oracleQuotes = [
     "Yıldızın parlıyor! Bugün attığın her Slack/Teams mesajı tam olarak gitmesi gereken yere ulaşacak.",
     "Bugün karşına çıkacak saçmalıklara karşı sabrın, bu panelin siyahlığı kadar derin ve sınırsız olsun.",
     "Metindeki çift boşlukları avladığın gibi hayattaki iki yüzlüleri de avlayacağın keskin bir gün.",
-    "Günü tavsiyesi: O sekmeyi kapat. Hangi sekme olduğunu biliyorsun. Kapat gitsin.",
+    "Günün tavsiyesi: O sekmeyi kapat. Hangi sekme olduğunu biliyorsun. Kapat gitsin.",
     "Bugün o meşhur 'toplantı olmasaydı maille çözülürdü' aydınlanmasını tam 3 kez yaşayacaksın.",
     "Küre fısıldıyor: Akşama güzel bir dizi/film patlat, bütün günün yükünü silsin süpürsün.",
     "Yazım hatalarını düzelttiğin gibi hayatına da ince bir ayar çekiyorsun. Doğru yoldasın.",
@@ -617,7 +615,7 @@ const oracleQuotes = [
     "Küreye göre bugün alacağın en iyi karar, işi tam zamanında bırakıp bilgisayarı kapatmak olacak.",
     "Bugün internet hızın tavan yapacak, indirdiğin her dosya saniyeler içinde inecek. Saf lüks.",
     "Metindeki tüm pislikleri temizledin. Artık tertemiz bir sayfan var. Hayatın da böyle ferah olsun.",
-    "Bugün biri sana 'Bunu acil yapar mısın?' diyecek. 'Acil' kelimesinin sözlük anlamını sorgulat ona.",
+    "Bugün biri sana 'Bitu acil yapar mısın?' diyecek. 'Acil' kelimesinin sözlük anlamını sorgulat ona.",
     "Kafandaki düşünceler şu an temizlenmemiş bir HTML metni gibi karmakarışık. Bi' dur, sakinleş.",
     "Bugün arkandan konuşanların tarayıcı geçmişi yanlışlıkla patronlarına mail gitsin. Amin.",
     "Küre parlıyor: Bugün yapacağın işler gelecekteki rahatının temel taşları olacak. Sık dişini.",
@@ -637,13 +635,10 @@ function getTengriOracle() {
         display.innerText = oracleQuotes[randomIndex];
         display.style.opacity = 1;
         
-        setTimeout(() => {
-            display.classList.remove("glitch-effect");
-        }, 200);
+        setTimeout(() => { display.classList.remove("glitch-effect"); }, 200);
     }, 200);
 }
 
-/* TEMA MOTORU */
 function changeTheme(themeName, element) {
     if(themeName === 'dark') {
         document.documentElement.removeAttribute('data-theme');
@@ -654,14 +649,12 @@ function changeTheme(themeName, element) {
     element.classList.add('active');
 }
 
-/* BİLDİRİM TOAST */
 function showToast() {
     const toast = document.getElementById("toast-notification");
     toast.classList.add("show");
     setTimeout(() => { toast.classList.remove("show"); }, 2000);
 }
 
-/* SAYAÇLAR */
 function calculateMeta(tabIndex) {
     const text = document.getElementById(`input${tabIndex}`).innerText;
     const charCount = text.length;
@@ -671,7 +664,6 @@ function calculateMeta(tabIndex) {
     document.getElementById(`word-count-${tabIndex}`).innerHTML = `Kelime: <strong>${wordCount}</strong>`;
 }
 
-/* TAB GEÇİŞLERI */
 function openTab(i){
     document.querySelectorAll(".tab-content").forEach(t=>t.classList.remove("active"));
     document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
@@ -679,7 +671,6 @@ function openTab(i){
     document.querySelectorAll(".tab-btn")[i].classList.add("active");
 }
 
-/* YASAKLI KELİMELER */
 const bannedWords = [
     "yüksek kalite", "yüksek kaliteli", "hakiki deri", "gerçek deri", "%100 deri", "% 100 deri",
     "birinci sınıf", "1. kalite", "1. sınıf", "unisex", "1.sınıf", "1.kalite", "1.kalıte",
@@ -697,10 +688,14 @@ function highlight(text) {
     return text;
 }
 
-/* 🎯 GELİŞMİŞ DOM TABANLI METİN VE BOŞLUK TEMİZLEME MOTORU (BOLD DÜĞMELERİNİ KORUR) */
+/* ==========================================================================
+   🎯 YENİ NESİL GELİŞMİŞ BOŞLUK VE SATIR TEMİZLEME MOTORU (KUSURSUZ SÜRÜM)
+   ========================================================================== */
+
 function cleanGarbageFromText(txt) {
     if (!txt) return "";
     return txt
+        .replace(/[\r\u200B\u200C\u200D\uFEFF]/g, "") // Gizli sistem kırılmalarını yok et
         .replace(/&nbsp;/gi, " ")
         .replace(/nbsp;/gi, " ")
         .replace(/;nbsp/gi, " ")
@@ -711,18 +706,21 @@ function cleanGarbageFromText(txt) {
         .replace(/&[^;]+;/g, " ")
         .replace(/&/g, " ")
         .replace(/;/g, " ")
-        .replace(/[ \t]+/g, " ");
+        .replace(/[ \t]+/g, " "); // Çoklu tab ve boşlukları teke indir
 }
 
 function processDOMNodes(node, forceLowercase = false) {
     if (node.nodeType === Node.TEXT_NODE) {
         let cleanText = cleanGarbageFromText(node.textContent);
+        
+        // B + veya B - kombinasyonlarını jilet gibi birleştir (Teknik hata önleyici)
+        cleanText = cleanText.replace(/B\s*\+\s*/gi, "B+").replace(/B\s*-\s*/gi, "B-");
+        
         if (forceLowercase) {
             cleanText = cleanText.toLocaleLowerCase('tr-TR');
         }
         node.textContent = cleanText;
     } else if (node.nodeType === Node.ELEMENT_NODE) {
-        // Alt düğmeleri derinlemesine tara ve temizle
         for (let i = 0; i < node.childNodes.length; i++) {
             processDOMNodes(node.childNodes[i], forceLowercase);
         }
@@ -731,15 +729,15 @@ function processDOMNodes(node, forceLowercase = false) {
 
 function cleanAndStructureDOM(inputElementId, forceLowercase = false) {
     const inputArea = document.getElementById(inputElementId);
-    if (!inputArea || !inputArea.innerHTML.trim()) return "";
+    if (!inputArea) return "";
 
-    // Orijinal yapıyı bozmamak için geçici bir sandbox oluşturuyoruz
+    // Orijinal veriyi klonlayıp sanal ortamda işleme alıyoruz
     let sandbox = document.createElement("div");
     sandbox.innerHTML = inputArea.innerHTML;
 
-    // Satır yönetimini el yapımı div/p kırılmaları yerine standartlaştırmak için \n işaretleri bırakıyoruz
-    let lineBreakers = sandbox.querySelectorAll('p, div, br');
-    lineBreakers.forEach(el => {
+    // Tüm paragraf ve div bloklarının sınırlarına kontrollü ayrım işareti koyuyoruz
+    let blocks = sandbox.querySelectorAll('p, div, br, li');
+    blocks.forEach(el => {
         if (el.tagName.toLowerCase() === 'br') {
             el.before(document.createTextNode('\n'));
         } else {
@@ -748,27 +746,29 @@ function cleanAndStructureDOM(inputElementId, forceLowercase = false) {
         }
     });
 
-    // 1. Aşama: Tüm metin düğmelerindeki çöp boşlukları temizle (Kalın/İtalik tagleri korunur)
+    // 1. Aşama: DOM ağacındaki tüm metinleri temizle (Kalın tagler korunur)
     processDOMNodes(sandbox, forceLowercase);
 
-    // 2. Aşama: HTML'i satırlara ayırıp boşluk kontrolü yapıyoruz
+    // 2. Aşama: Satırları ayır ve boş olan, çöp barındıran tüm satırları filtrele
     let rawHTML = sandbox.innerHTML;
     let rawLines = rawHTML.split('\n');
     let finalProcessedLines = [];
 
     rawLines.forEach(line => {
-        let textCheck = line.replace(/<[^>]*>/g, "").trim(); // Etiketsiz saf metin kontrolü
+        // Satırın içindeki HTML etiketlerini soyup gerçek bir içerik var mı kontrol ediyoruz
+        let textCheck = line.replace(/<[^>]*>/g, "").replace(/\s+/g, "").trim();
+        
         if (textCheck !== "") {
             let processedLine = line.trim();
             if (forceLowercase) {
-                // Türkçe cümle başı harf büyütme koruması
+                // Türkçe cümle başlarını akıllı büyütme koruması
                 processedLine = processedLine.replace(/(^|>|[.!?]\s+)([a-zçğıöşü])/g, (m, p1, p2) => p1 + p2.toLocaleUpperCase('tr-TR'));
             }
             finalProcessedLines.push(processedLine);
         }
     });
 
-    // Satırları tek bir <br> ile birleştirip yasaklı kelimeleri işaretliyoruz
+    // Satırları tek bir satır atlama işaretiyle bağla ve yasaklı kelimeleri işaretle
     return highlight(finalProcessedLines.join("<br>"));
 }
 
@@ -818,12 +818,9 @@ function clear2(){
     calculateMeta(2);
 }
 
-/* 🎯 OTOMATİK DERİN SİYAH (MIDNIGHT OLED) BAŞLANGIÇ TETİKLEYİCİSİ */
 window.addEventListener("DOMContentLoaded", function() {
     const darkDot = document.querySelector(".id-dark-dot");
-    if (darkDot) {
-        changeTheme('dark', darkDot);
-    }
+    if (darkDot) { changeTheme('dark', darkDot); }
 });
 </script>
 
