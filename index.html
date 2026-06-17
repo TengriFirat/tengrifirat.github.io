@@ -589,7 +589,7 @@ const oracleQuotes = [
     "Bugün birisi sana 'Bakar mısın?' diyecek. Duymamazlıktan gel, iş yıkmaya çalışıyorlar.",
     "Kaderinde yakın zamanda bir zam, terfi veya en kötü ihtimalle çok tatlı bir öğle yemeği ısmarlanması var.",
     "Metnini temizledin, peki ya zihnini? Bir ara arkana yaslan ve derin bir nefes al şampiyon.",
-    "Bugün kurumsal dünyayı dize getirebilecek bir enerjiye sahipsin ama canın istemiyor, çok haklısın.",
+    "Bugün kurumsal dünyayı dize getirebilecek bir energye sahipsin ama canın istemiyor, çok haklısın.",
     "Gelecekte harika bir tatil görüyorum. Ama o geleceğe daha çok var, şimdi şu metni hallet.",
     "Siber evren sana mesaj gönderiyor: 'Bugün o klavyeye biraz daha yumuşak bas, o da bir can.'",
     "Seni çekemeyenlerin algoritması çöksün, tarayıcıları kapansın, ramleri yansın. Sen devam et.",
@@ -599,7 +599,7 @@ const oracleQuotes = [
     "Bugün karşına çıkacak saçmalıklara karşı sabrın, bu panelin siyahlığı kadar derin ve sınırsız olsun.",
     "Metindeki çift boşlukları avladığın gibi hayattaki iki yüzlüleri de avlayacağın keskin bir gün.",
     "Günün tavsiyesi: O sekmeyi kapat. Hangi sekme olduğunu biliyorsun. Kapat gitsin.",
-    "Bugün o meşhur ' toplantı olmasaydı maille çözülürdü' aydınlanmasını tam 3 kez yaşayacaksın.",
+    "Bugün o meşhur 'toplantı olmasaydı maille çözülürdü' aydınlanmasını tam 3 kez yaşayacaksın.",
     "Küre fısıldıyor: Akşama güzel bir dizi/film patlat, bütün günün yükünü silsin süpürsün.",
     "Yazım hatalarını düzelttiğin gibi hayatına da ince bir ayar çekiyorsun. Doğru yoldasın.",
     "Bugün müşteriden gelen 'Elinize sağlık çok güzel olmuş' mesajını göreceksin. (Şaka şaka, revizyon var).",
@@ -615,7 +615,7 @@ const oracleQuotes = [
     "Bugün kurumsallık maskeni evde unutmuş gibisin, için kıpır kıpır. Geyik yapacak birini bul.",
     "Yakın çevrenden biri sana gizli bir hayranlık besliyor. Muhtemelen bu paneli nasıl bu kadar hızlı kullandığına şaşırıyor.",
     "Küreye göre bugün alacağın en iyi karar, işi tam zamanında bırakıp bilgisayarı kapatmak olacak.",
-    "Bugün internet hızın tavan yapacak, indirdiğin her dosya saniyeler içinde incecek. Saf lüks.",
+    "Bugün internet hızın tavan yapacak, indirdiğin her dosya saniyeler içinde inecek. Saf lüks.",
     "Metindeki tüm pislikleri temizledin. Artık tertemiz bir sayfan var. Hayatın da böyle ferah olsun.",
     "Bugün biri sana 'Bunu acil yapar mısın?' diyecek. 'Acil' kelimesinin sözlük anlamını sorgulat ona.",
     "Kafandaki düşünceler şu an temizlenmemiş bir HTML metni gibi karmakarışık. Bi' dur, sakinleş.",
@@ -630,7 +630,6 @@ const oracleQuotes = [
 function getTengriOracle() {
     const display = document.getElementById("oracle-display");
     
-    // Glitch efekti ve geçici kaybolma
     display.classList.add("glitch-effect");
     display.style.opacity = 0.3;
     
@@ -700,9 +699,10 @@ function highlight(text) {
     return text;
 }
 
-function cleanGarbageFromText(txt, forceLowercase = false) {
+/* KUSURSUZ HALE GETİRİLEN YENİ METİN TEMİZLEME MOTORU */
+function cleanGarbageFromText(txt) {
     if (!txt) return "";
-    let clean = txt
+    return txt
         .replace(/&nbsp;/gi, " ")
         .replace(/nbsp;/gi, " ")
         .replace(/;nbsp/gi, " ")
@@ -712,46 +712,47 @@ function cleanGarbageFromText(txt, forceLowercase = false) {
         .replace(/&amp;/gi, " ")
         .replace(/&[^;]+;/g, " ")
         .replace(/&/g, " ")
-        .replace(/;/g, " ");
-
-    clean = clean.replace(/[ \t]+/g, " ");
-
-    if (forceLowercase) {
-        clean = clean.toLowerCase();
-        clean = clean.replace(/(^|[.!?]\s+)([a-zçğıöşü])/g, (m, p1, p2) => p1 + p2.toUpperCase());
-    }
-    return clean;
+        .replace(/;/g, " ")
+        .replace(/[ \t]+/g, " "); // Tab ve ardışık yatay boşlukları tek boşluğa indirger
 }
 
-function cleanAndStructureDOM(htmlText, forceLowercase = false) {
-    if (!htmlText.trim()) return "";
-    let sandbox = document.createElement("div");
-    sandbox.innerHTML = htmlText;
+function cleanAndStructureDOM(inputElementId, forceLowercase = false) {
+    const inputArea = document.getElementById(inputElementId);
+    if (!inputArea) return "";
+
+    // Orijinal elemanı bozmamak için klon üstünden işlem yapıyoruz
+    let clone = inputArea.cloneNode(true);
     
-    function traverseAndClean(node) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            node.textContent = cleanGarbageFromText(node.textContent, forceLowercase);
+    // Satır ayrım kararlılığı için block etiketlerini standardize ediyoruz
+    let blocks = clone.querySelectorAll('p, div, br');
+    blocks.forEach(b => {
+        if(b.tagName.toLowerCase() === 'br') {
+            b.before('\n');
         } else {
-            for (let i = 0; i < node.childNodes.length; i++) {
-                traverseAndClean(node.childNodes[i]);
-            }
-        }
-    }
-    traverseAndClean(sandbox);
-    
-    let structuralHTML = sandbox.innerHTML
-        .replace(/<(div|p|br)[^>]*>/gi, "\n")
-        .replace(/<\/(div|p)>/gi, "");
-        
-    let lines = structuralHTML.split("\n");
-    let finalLines = [];
-    
-    lines.forEach(line => {
-        let trimmedLine = line.replace(/[\s\u00A0]+/g, " ").trim();
-        if (trimmedLine !== "" && trimmedLine !== "<br>" && trimmedLine !== "<b></b>" && trimmedLine !== "<strong></strong>") {
-            finalLines.push(trimmedLine);
+            b.before('\n');
+            b.after('\n');
         }
     });
+
+    let rawText = clone.innerText;
+    let lines = rawText.split('\n');
+    let finalLines = [];
+
+    lines.forEach(line => {
+        // Her satırın kendi içindeki çöp karakterlerini temizle
+        let cleanedLine = cleanGarbageFromText(line).trim();
+        
+        if (cleanedLine !== "") {
+            if (forceLowercase) {
+                // Türkçe karakter uyumlu akıllı küçük harf ve baş harf büyütme sistemi
+                cleanedLine = cleanedLine.toLocaleLowerCase('tr-TR');
+                cleanedLine = cleanedLine.replace(/(^|[.!?]\s+)([a-zçğıöşü])/g, (m, p1, p2) => p1 + p2.toLocaleUpperCase('tr-TR'));
+            }
+            finalLines.push(cleanedLine);
+        }
+    });
+
+    // Satırları HTML'e basarken tek bir <br> ile birleştirerek ekstra boşlukları yok ediyoruz
     return highlight(finalLines.join("<br>"));
 }
 
@@ -770,33 +771,29 @@ function copyToClipboard(elementId) {
 }
 
 function cleanSpaces(){
-    let html = document.getElementById("input1").innerHTML;
-    document.getElementById("output1").innerHTML = cleanAndStructureDOM(html, false);
+    document.getElementById("output1").innerHTML = cleanAndStructureDOM("input1", false);
 }
 
-document.getElementById("input1").addEventListener("keydown", function(e) {
+function fixText(){
+    document.getElementById("output2").innerHTML = cleanAndStructureDOM("input2", true);
+}
+
+// Enter tuşuna basıldığında stabil tek satır atlama davranışı
+function handleEnterKey(e) {
     if (e.key === "Enter") {
         document.execCommand('insertLineBreak', false, null);
         e.preventDefault();
     }
-});
-document.getElementById("input2").addEventListener("keydown", function(e) {
-    if (e.key === "Enter") {
-        document.execCommand('insertLineBreak', false, null);
-        e.preventDefault();
-    }
-});
+}
+
+document.getElementById("input1").addEventListener("keydown", handleEnterKey);
+document.getElementById("input2").addEventListener("keydown", handleEnterKey);
 
 function copy1(){ copyToClipboard("output1"); }
 function clear1(){
     document.getElementById("input1").innerHTML="";
     document.getElementById("output1").innerHTML="";
     calculateMeta(1);
-}
-
-function fixText(){
-    let html = document.getElementById("input2").innerHTML;
-    document.getElementById("output2").innerHTML = cleanAndStructureDOM(html, true);
 }
 
 function copy2(){ copyToClipboard("output2"); }
