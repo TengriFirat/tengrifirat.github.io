@@ -589,7 +589,7 @@ const oracleQuotes = [
     "Bugün birisi sana 'Bakar mısın?' diyecek. Duymamazlıktan gel, iş yıkmaya çalışıyorlar.",
     "Kaderinde yakın zamanda bir zam, terfi veya en kötü ihtimalle çok tatlı bir öğle yemeği ısmarlanması var.",
     "Metnini temizledin, peki ya zihnini? Bir ara arkana yaslan ve derin bir nefes al şampiyon.",
-    "Bugün kurumsal dünyayı dize getirebilecek bir energye sahipsin ama canın istemiyor, çok haklısın.",
+    "Bugün kurumsal dünyayı dize getirebilecek bir enerjiye sahipsin ama canın istemiyor, çok haklısın.",
     "Gelecekte harika bir tatil görüyorum. Ama o geleceğe daha çok var, şimdi şu metni hallet.",
     "Siber evren sana mesaj gönderiyor: 'Bugün o klavyeye biraz daha yumuşak bas, o da bir can.'",
     "Seni çekemeyenlerin algoritması çöksün, tarayıcıları kapansın, ramleri yansın. Sen devam et.",
@@ -598,7 +598,7 @@ const oracleQuotes = [
     "Yıldızın parlıyor! Bugün attığın her Slack/Teams mesajı tam olarak gitmesi gereken yere ulaşacak.",
     "Bugün karşına çıkacak saçmalıklara karşı sabrın, bu panelin siyahlığı kadar derin ve sınırsız olsun.",
     "Metindeki çift boşlukları avladığın gibi hayattaki iki yüzlüleri de avlayacağın keskin bir gün.",
-    "Günün tavsiyesi: O sekmeyi kapat. Hangi sekme olduğunu biliyorsun. Kapat gitsin.",
+    "Günü tavsiyesi: O sekmeyi kapat. Hangi sekme olduğunu biliyorsun. Kapat gitsin.",
     "Bugün o meşhur 'toplantı olmasaydı maille çözülürdü' aydınlanmasını tam 3 kez yaşayacaksın.",
     "Küre fısıldıyor: Akşama güzel bir dizi/film patlat, bütün günün yükünü silsin süpürsün.",
     "Yazım hatalarını düzelttiğin gibi hayatına da ince bir ayar çekiyorsun. Doğru yoldasın.",
@@ -608,7 +608,7 @@ const oracleQuotes = [
     "Bugün tarayıcında 40'tan fazla sekme açılacak. Bilgisayarına iyi davran, o senin yoldaşın.",
     "Günün kehaneti: Bugün klavyene dökülmeyen her kahve, senin için büyük bir zaferdir.",
     "Tengri diyor ki: Akşamki yemeğin tuzu tam kıvamında olacak, keyfin yerine gelecek.",
-    "Metninde hiç yasaklı kelime çıkmadı mı? İşte profesyonelliğin saf ve temiz hali. Helal olsun.",
+    "Metninde hiç yasakli kelime çıkmadı mı? İşte profesyonelliğin saf ve temiz hali. Helal olsun.",
     "Bugün 'Bakarız' denen her şeyin aslında 'Asla yapmayacağız' anlamına geldiğini bir kez daha anlayacaksın.",
     "Siber kaderinde büyük bir kahve molası var. Hak ettin, hadi git doldur gel.",
     "Hayat bazen hatalı kodlar gibi karmaşıktır, ama unutmaman gereken şey: Her zaman bir geri al (CTRL+Z) tuşu vardır.",
@@ -629,7 +629,6 @@ const oracleQuotes = [
 
 function getTengriOracle() {
     const display = document.getElementById("oracle-display");
-    
     display.classList.add("glitch-effect");
     display.style.opacity = 0.3;
     
@@ -643,7 +642,6 @@ function getTengriOracle() {
         }, 200);
     }, 200);
 }
-
 
 /* TEMA MOTORU */
 function changeTheme(themeName, element) {
@@ -699,7 +697,7 @@ function highlight(text) {
     return text;
 }
 
-/* KUSURSUZ HALE GETİRİLEN YENİ METİN TEMİZLEME MOTORU */
+/* 🎯 GELİŞMİŞ DOM TABANLI METİN VE BOŞLUK TEMİZLEME MOTORU (BOLD DÜĞMELERİNİ KORUR) */
 function cleanGarbageFromText(txt) {
     if (!txt) return "";
     return txt
@@ -713,47 +711,65 @@ function cleanGarbageFromText(txt) {
         .replace(/&[^;]+;/g, " ")
         .replace(/&/g, " ")
         .replace(/;/g, " ")
-        .replace(/[ \t]+/g, " "); // Tab ve ardışık yatay boşlukları tek boşluğa indirger
+        .replace(/[ \t]+/g, " ");
+}
+
+function processDOMNodes(node, forceLowercase = false) {
+    if (node.nodeType === Node.TEXT_NODE) {
+        let cleanText = cleanGarbageFromText(node.textContent);
+        if (forceLowercase) {
+            cleanText = cleanText.toLocaleLowerCase('tr-TR');
+        }
+        node.textContent = cleanText;
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+        // Alt düğmeleri derinlemesine tara ve temizle
+        for (let i = 0; i < node.childNodes.length; i++) {
+            processDOMNodes(node.childNodes[i], forceLowercase);
+        }
+    }
 }
 
 function cleanAndStructureDOM(inputElementId, forceLowercase = false) {
     const inputArea = document.getElementById(inputElementId);
-    if (!inputArea) return "";
+    if (!inputArea || !inputArea.innerHTML.trim()) return "";
 
-    // Orijinal elemanı bozmamak için klon üstünden işlem yapıyoruz
-    let clone = inputArea.cloneNode(true);
-    
-    // Satır ayrım kararlılığı için block etiketlerini standardize ediyoruz
-    let blocks = clone.querySelectorAll('p, div, br');
-    blocks.forEach(b => {
-        if(b.tagName.toLowerCase() === 'br') {
-            b.before('\n');
+    // Orijinal yapıyı bozmamak için geçici bir sandbox oluşturuyoruz
+    let sandbox = document.createElement("div");
+    sandbox.innerHTML = inputArea.innerHTML;
+
+    // Satır yönetimini el yapımı div/p kırılmaları yerine standartlaştırmak için \n işaretleri bırakıyoruz
+    let lineBreakers = sandbox.querySelectorAll('p, div, br');
+    lineBreakers.forEach(el => {
+        if (el.tagName.toLowerCase() === 'br') {
+            el.before(document.createTextNode('\n'));
         } else {
-            b.before('\n');
-            b.after('\n');
+            el.before(document.createTextNode('\n'));
+            el.after(document.createTextNode('\n'));
         }
     });
 
-    let rawText = clone.innerText;
-    let lines = rawText.split('\n');
-    let finalLines = [];
+    // 1. Aşama: Tüm metin düğmelerindeki çöp boşlukları temizle (Kalın/İtalik tagleri korunur)
+    processDOMNodes(sandbox, forceLowercase);
 
-    lines.forEach(line => {
-        // Her satırın kendi içindeki çöp karakterlerini temizle
-        let cleanedLine = cleanGarbageFromText(line).trim();
-        
-        if (cleanedLine !== "") {
+    // 2. Aşama: HTML'i satırlara ayırıp boşluk kontrolü yapıyoruz
+    let rawHTML = sandbox.innerHTML;
+    let rawLines = rawHTML.split('\n');
+    let finalProcessedLines = [];
+
+    rawLines.forEach(line => {
+        let textCheck = line.replace(/<[^>]*>/g, "").trim(); // Etiketsiz saf metin kontrolü
+        if (textCheck !== "") {
+            let processedLine = line.trim();
             if (forceLowercase) {
-                // Türkçe karakter uyumlu akıllı küçük harf ve baş harf büyütme sistemi
-                cleanedLine = cleanedLine.toLocaleLowerCase('tr-TR');
-                cleanedLine = cleanedLine.replace(/(^|[.!?]\s+)([a-zçğıöşü])/g, (m, p1, p2) => p1 + p2.toLocaleUpperCase('tr-TR'));
+                // Türkçe cümle başı harf büyütme koruması
+                processedLine = processedLine.replace(/(^|>|[.!?]\s+)([a-zçğıöşü])/g, (m, p1, p2) => p1 + p2.toLocaleUpperCase('tr-TR'));
             }
-            finalLines.push(cleanedLine);
+            finalProcessedLines.push(processedLine);
         }
     });
 
-    // Satırları HTML'e basarken tek bir <br> ile birleştirerek ekstra boşlukları yok ediyoruz
-    return highlight(finalLines.join("<br>"));
+    // Satırları tek bir <br> ile birleştirip yasaklı kelimeleri işaretliyoruz
+    return highlight(finalProcessedLines.join("<br>"));
 }
 
 function copyToClipboard(elementId) {
@@ -778,7 +794,6 @@ function fixText(){
     document.getElementById("output2").innerHTML = cleanAndStructureDOM("input2", true);
 }
 
-// Enter tuşuna basıldığında stabil tek satır atlama davranışı
 function handleEnterKey(e) {
     if (e.key === "Enter") {
         document.execCommand('insertLineBreak', false, null);
