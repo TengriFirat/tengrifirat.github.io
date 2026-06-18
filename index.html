@@ -86,7 +86,6 @@ body {
     animation: siberDeprem 0.12s infinite linear !important;
 }
 
-/* Kaos anında elementlerin parlaması ve sarsıntı yumuşaklığı */
 .tengri-kaos-aktif .crazy-target {
     transition: transform 0.08s linear, left 0.08s, top 0.08s;
     box-shadow: 0 0 25px var(--accent-color) !important;
@@ -207,8 +206,8 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
 
 <div class="theme-selector crazy-target">
     <span class="theme-label crazy-target">TEMA:</span>
-    <div class="theme-dot id-dark-dot active" style="background: #1c1c1e; border: 1px solid #3a3a3c;" onclick="changeTheme('dark', this)" title="Midnight OLED (Derin Siyah)"></div>
-    <div class="theme-dot" style="background: #d62828;" onclick="changeTheme('crimson', this)" title="Cyber Crimson (Mat Kırmızı)"></div>
+    <div id="dark-dot-btn" class="theme-dot id-dark-dot active" style="background: #1c1c1e; border: 1px solid #3a3a3c;" onclick="changeTheme('dark', this)" title="Midnight OLED (Derin Siyah)"></div>
+    <div id="crimson-dot-btn" class="theme-dot" style="background: #d62828;" onclick="changeTheme('crimson', this)" title="Cyber Crimson (Mat Kırmızı)"></div>
     <div class="theme-dot" style="background: #0077b6;" onclick="changeTheme('blue', this)" title="Deep Sapphire (Soylu Mavi)"></div>
     <div class="theme-dot" style="background: #2d6a4f;" onclick="changeTheme('green', this)" title="Emerald Velvet (Zümrüt Yeşil)"></div>
     <div class="theme-dot" style="background: #7209b7;" onclick="changeTheme('purple', this)" title="Amethyst Dusk (Asil Mor)"></div>
@@ -254,7 +253,7 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     </div>
 
     <div class="tab-content crazy-target">
-        <h3 class="crazy-target">Metni buraya yapıştır aslan parçası</h3>
+        h3 class="crazy-target">Metni buraya yapıştır aslan parçası</h3>
         <div id="input2" class="input-area crazy-target" contenteditable="true" oninput="calculateMeta(2)"></div>
         <div class="meta-info crazy-target">
             <span id="char-count-2" class="crazy-target">Karakter: <strong>0</strong></span>
@@ -269,7 +268,7 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     </div>
 </div>
 
-<div class="watermark crazy-target">SiberOS</div>
+<div id="cyber-watermark" class="watermark crazy-target">SiberOS</div>
 
 <div id="cyber-audio-player" class="cyber-player crazy-target">
     <div class="player-info crazy-target">
@@ -379,7 +378,7 @@ function changeTheme(themeName, element) {
         document.documentElement.setAttribute('data-theme', themeName); 
     } 
     document.querySelectorAll('.theme-dot').forEach(dot => dot.classList.remove('active')); 
-    element.classList.add('active'); 
+    if (element) element.classList.add('active'); 
 }
 
 function showToast() { 
@@ -389,12 +388,13 @@ function showToast() {
 }
 
 let kaosInterval = null;
-let isTengriMode = false; // Kaos durumunu takip eden bayrak
+let currentActiveInputIndex = 1;
 
 // Korku Çığlığı Audio Dosyası
 const screamAudio = new Audio("https://actions.google.com/sounds/v1/horror/female_scream_loud.ogg");
 
 function calculateMeta(tabIndex) { 
+    currentActiveInputIndex = tabIndex; // Aktif sekmeyi kaydet
     const text = document.getElementById(`input${tabIndex}`).innerText; 
     const charCount = text.length; 
     const wordCount = text.trim() === "" ? 0 : text.trim().split(/\s+/).length; 
@@ -402,20 +402,40 @@ function calculateMeta(tabIndex) {
     document.getElementById(`char-count-${tabIndex}`).innerHTML = `Karakter: <strong>${charCount}</strong>`; 
     document.getElementById(`word-count-${tabIndex}`).innerHTML = `Kelime: <strong>${wordCount}</strong>`; 
 
-    // ==========================================================================
-    // 🌀 TENGRİ EASTER EGG KONTROLÜ
-    // ==========================================================================
+    // Tengri kelimesi yazılırken kaos BAŞLAMAYACAK (Kullanıcı rahatça butonlara basabilsin diye)
+    // Eğer kelime silindiyse siber kaosu durduruyoruz
     const searchKey = "tengri";
+    if (!text.toLowerCase().includes(searchKey) && document.body.classList.contains("tengri-kaos-aktif")) {
+        stopTengriMadness();
+    }
+}
+
+// 🚨 Butona tıklandığında siber kıyameti koparan asıl tetikleyici motor
+function checkAndTriggerTengriKaos() {
+    const text = document.getElementById(`input${currentActiveInputIndex}`).innerText;
+    const searchKey = "tengri";
+
     if (text.toLowerCase().includes(searchKey)) {
-        isTengriMode = true;
         if (!document.body.classList.contains("tengri-kaos-aktif")) {
+            // 1. Çığlık at
+            screamAudio.volume = 1.0;
+            screamAudio.currentTime = 0;
+            screamAudio.play().catch(e => console.log("Etkileşim engeli."));
+
+            // 2. Kaos sınıflarını ve başlıkları değiştir
             document.body.classList.add("tengri-kaos-aktif");
-            document.querySelector(".oracle-title").innerText = "🚨 KAOS SİSTEMİ AKTİF! TENGRİ MODU!";
-            
-            // Müzik hızını 2 katına çıkar
+            document.querySelector(".oracle-title").innerText = "🚨 SİSTEM ÇÖKTÜ! SİBER RUHLAR ELE GEÇİRDİ!";
+            document.getElementById("oracle-display").innerText = "TENGRİ MODU TETİKLENDİ. GERİ DÖNÜŞ YOK!";
+            document.getElementById("cyber-watermark").innerText = "TENGRİ";
+
+            // 3. Temayı otomatik olarak kan kırmızısı yap
+            const crimsonBtn = document.getElementById("crimson-dot-btn");
+            changeTheme('crimson', crimsonBtn);
+
+            // 4. Müzik hızını 2 katına çıkar
             if (audio) { audio.playbackRate = 2.0; }
 
-            // Elementleri deliler gibi uçurmaya ve yer değiştirmeye başla
+            // 5. Elementleri rastgele yerlere fırlatmaya başla
             const targets = document.querySelectorAll(".crazy-target");
             kaosInterval = setInterval(() => {
                 targets.forEach(el => {
@@ -426,30 +446,27 @@ function calculateMeta(tabIndex) {
                 });
             }, 100);
         }
-    } else {
-        isTengriMode = false;
-        if (document.body.classList.contains("tengri-kaos-aktif")) {
-            document.body.classList.remove("tengri-kaos-aktif");
-            document.querySelector(".oracle-title").innerText = "⚡ ORACLE / GÜNÜN SİBER KEHANETİ";
-            
-            if (audio) { audio.playbackRate = 1.0; }
-
-            clearInterval(kaosInterval);
-            const targets = document.querySelectorAll(".crazy-target");
-            targets.forEach(el => {
-                el.style.transform = "none";
-            });
-        }
     }
 }
 
-// 🚨 Butona tıklandığında çığlık sesini tetikleyen kontrol fonksiyonu
-function triggerScreamIfTengri() {
-    if (isTengriMode) {
-        screamAudio.volume = 1.0; // Sesi maksimuma çek
-        screamAudio.currentTime = 0; // Başa sar
-        screamAudio.play().catch(e => console.log("Ses çalma engellendi, önce sayfaya tıklayın."));
-    }
+// Sistemi eski kararlı ve asil siyah haline getiren fonksiyon
+function stopTengriMadness() {
+    document.body.classList.remove("tengri-kaos-aktif");
+    document.querySelector(".oracle-title").innerText = "⚡ ORACLE / GÜNÜN SİBER KEHANETİ";
+    document.getElementById("oracle-display").innerText = "Küreye tıkla ve siber kaderinle yüzleş...";
+    document.getElementById("cyber-watermark").innerText = "SiberOS";
+    
+    // Temayı tekrar Midnight OLED (Siyah) yap
+    const darkDot = document.getElementById("dark-dot-btn");
+    changeTheme('dark', darkDot);
+
+    if (audio) { audio.playbackRate = 1.0; }
+
+    clearInterval(kaosInterval);
+    const targets = document.querySelectorAll(".crazy-target");
+    targets.forEach(el => {
+        el.style.transform = "none";
+    });
 }
 
 function openTab(i){ 
@@ -527,11 +544,11 @@ function copyToClipboard(elementId) {
 }
 
 function cleanSpaces(){ 
-    triggerScreamIfTengri(); // Çığlık tetikleyici
+    checkAndTriggerTengriKaos(); // Butona basıldığında kaosu kontrol et
     document.getElementById("output1").innerHTML = processUltraEngine("input1", false); 
 }
 function fixText(){ 
-    triggerScreamIfTengri(); // Çığlık tetikleyici
+    checkAndTriggerTengriKaos(); // Butona basıldığında kaosu kontrol et
     document.getElementById("output2").innerHTML = processUltraEngine("input2", true); 
 }
 function handleEnterKey(e) { if (e.key === "Enter") { document.execCommand('insertLineBreak', false, null); e.preventDefault(); } }
@@ -539,9 +556,9 @@ function handleEnterKey(e) { if (e.key === "Enter") { document.execCommand('inse
 document.getElementById("input1").addEventListener("keydown", handleEnterKey);
 document.getElementById("input2").addEventListener("keydown", handleEnterKey);
 function copy1(){ copyToClipboard("output1"); }
-function clear1(){ document.getElementById("input1").innerHTML=""; document.getElementById("output1").innerHTML=""; calculateMeta(1); }
+function clear1(){ document.getElementById("input1").innerHTML=""; document.getElementById("output1").innerHTML=""; stopTengriMadness(); calculateMeta(1); }
 function copy2(){ copyToClipboard("output2"); }
-function clear2(){ document.getElementById("input2").innerHTML=""; document.getElementById("output2").innerHTML=""; calculateMeta(2); }
+function clear2(){ document.getElementById("input2").innerHTML=""; document.getElementById("output2").innerHTML=""; stopTengriMadness(); calculateMeta(2); }
 
 window.addEventListener("DOMContentLoaded", function() {
     const darkDot = document.querySelector(".id-dark-dot");
