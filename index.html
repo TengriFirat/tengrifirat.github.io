@@ -239,7 +239,7 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
 <div class="container">
     <div class="tab-content active crazy-target">
         <h3 class="crazy-target">Metni buraya yapıştır aslan parçası</h3>
-        <div id="input1" class="input-area crazy-target" contenteditable="true" oninput="calculateMeta(1)"></div>
+        <div id="input1" class="input-area crazy-target" contenteditable="true" oninput="calculateMeta(1)" onfocus="unlockAudioContext()"></div>
         <div class="meta-info crazy-target">
             <span id="char-count-1" class="crazy-target">Karakter: <strong>0</strong></span>
             <span id="word-count-1" class="crazy-target">Kelime: <strong>0</strong></span>
@@ -253,8 +253,8 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     </div>
 
     <div class="tab-content crazy-target">
-        h3 class="crazy-target">Metni buraya yapıştır aslan parçası</h3>
-        <div id="input2" class="input-area crazy-target" contenteditable="true" oninput="calculateMeta(2)"></div>
+        <h3 class="crazy-target">Metni buraya yapıştır aslan parçası</h3>
+        <div id="input2" class="input-area crazy-target" contenteditable="true" oninput="calculateMeta(2)" onfocus="unlockAudioContext()"></div>
         <div class="meta-info crazy-target">
             <span id="char-count-2" class="crazy-target">Karakter: <strong>0</strong></span>
             <span id="word-count-2" class="crazy-target">Kelime: <strong>0</strong></span>
@@ -268,7 +268,7 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     </div>
 </div>
 
-<div id="cyber-watermark" class="watermark crazy-target">Hepsi Burada</div>
+<div id="cyber-watermark" class="watermark crazy-target">SiberOS</div>
 
 <div id="cyber-audio-player" class="cyber-player crazy-target">
     <div class="player-info crazy-target">
@@ -303,7 +303,7 @@ const oracleQuotes = [
     "Kaderinde bugün çok radikal bir kariyer değişikliği görüyorum. Mesela 'Boşluk Temizleyici' sekmesinden 'Yazım Düzenleyici' sekmesine geçeceksin. Büyük devrim.",
     "Küre diyor ki: İstifa edip bir sahil kasabasında domates yetiştirmek harika bir fikir. Ama domates tohumu fiyatlarına bakınca bu panelin siyahlığı gözüne bir tık daha güzel geliyor, değil mi?",
     "Bugün bir delilik yapıp Slack'ten 'Ben çıkıyorum, ne haliniz varsa görün' yazasın gelecek. Ama enter tuşuna basmadan önce kıdem tazminatını hesaplayıp yerine 'Harika bir feedback, hemen ilgileniyorum' yazacaksınız.",
-    "Yıldız haritana göre bugün kurumsal kölelik zincirlerini kırma günün! Ama Akbank, Garanti ve Yapı Kredi el ele tutuşup kapıda seni bekliyor. Zincirler kalsın, biz metindeki çift boşlukları kıralım.",
+    "Yıldız haritana göre bugün kurumsal kölelik zincirlerini kırma günün! Ama Akbank, Garanti ve Yapı Kredi el ele tutuşup kapıda seni bekleyyor. Zincirler kalsın, biz metindeki çift boşlukları kıralım.",
     "Küre diyor ki: İstifa et, her şeyi sat, Hindistan'a git ve ruhunu arındır. Ama uçak bileti fiyatlarına baktıktan sonra bu paneldeki 'Temizle' buotnu gözüne Ganj Nehri'nden daha arındırıcı gelecek.",
     "Küre diyor ki: Sen bu dünyaya her sabah 8'de uyanıp elalemin excel tablosunu, word metnini düzeltmek için gelmedin. Sen çok daha büyük şeyler için yaratıldın... Şaka şaka, tam olarak bunun için geldin. Hadi yapıştır metni, mesai akıyor.",
     "Bugün istifa edip dünyayı gezen o cool gezginlerden olma hayalin tavan yapacak. Ama sırt çantanı hazırlarken içine koyacak lüksün sadece şirket logolu polar ve promosyon termos olduğunu fark edip masana geri çökeceksiniz. Kopyala butonuna bas ve hayalleri serbest bırak.",
@@ -331,7 +331,7 @@ const oracleQuotes = [
     "Siber evren sana mesaj gönderiyor: 'Bugün o klavyeye biraz daha yumuşak bas, o da bir can.'",
     "Seni çekemeyenlerin algoritması çöksün, tarayıcıları kapansın, ramleri yansın. Sen devam et.",
     "Bugün yapacağın en büyük hata, biten işi teslim ettikten sonra 'Başka bir şey var mıydı?' diye sormak olur. Sorma.",
-    "Bugün karşına çıkacak saçmalıklara karşı sabrın, bu panelin siyahlığı kadar derin ve sınırsız olsun.",
+    "Bugün karşına çıkacak saçmalıklara karşı sabrın, bu panelin siyahlığı kadar derinและ sınırsız olsun.",
     "Metindeki çift boşlukları avladığın gibi hayattaki iki yüzlüleri de avlayacağın keskin bir gün.",
     "Günun tavsiyesi: O sekmeyi kapat. Hangi sekme olduğunu biliyorsun. Kapat gitsin.",
     "Bugün o meşhur 'toplantı olmasaydı maille çözülürdü' aydınlanmasını tam 3 kez yaşayacaksın.",
@@ -390,11 +390,20 @@ function showToast() {
 let kaosInterval = null;
 let currentActiveInputIndex = 1;
 
-// Korku Çığlığı Audio Dosyası
-const screamAudio = new Audio("https://actions.google.com/sounds/v1/horror/female_scream_loud.ogg");
+// 🔊 Korku Çığlığı Audio Motoru (Gelişmiş Tarayıcı Uyumluluğu İle)
+const screamAudio = new Audio("https://cdnjs.cloudflare.com/ajax/libs/ion-sound/3.0.7/sounds/snap.mp3"); // Geçici başlatıcı
+screamAudio.src = "https://actions.google.com/sounds/v1/horror/female_scream_loud.ogg"; // Gerçek korkunç ses URL'si
+
+// Kullanıcı sayfaya tıkladığı veya kutuya odaklandığı an tarayıcı ses kilidini açar
+function unlockAudioContext() {
+    screamAudio.play().then(() => {
+        screamAudio.pause();
+        screamAudio.currentTime = 0;
+    }).catch(e => { /* Güvenli yoksayma */ });
+}
 
 function calculateMeta(tabIndex) { 
-    currentActiveInputIndex = tabIndex; // Aktif sekmeyi kaydet
+    currentActiveInputIndex = tabIndex; 
     const text = document.getElementById(`input${tabIndex}`).innerText; 
     const charCount = text.length; 
     const wordCount = text.trim() === "" ? 0 : text.trim().split(/\s+/).length; 
@@ -402,40 +411,44 @@ function calculateMeta(tabIndex) {
     document.getElementById(`char-count-${tabIndex}`).innerHTML = `Karakter: <strong>${charCount}</strong>`; 
     document.getElementById(`word-count-${tabIndex}`).innerHTML = `Kelime: <strong>${wordCount}</strong>`; 
 
-    // Tengri kelimesi yazılırken kaos BAŞLAMAYACAK (Kullanıcı rahatça butonlara basabilsin diye)
-    // Eğer kelime silindiyse siber kaosu durduruyoruz
     const searchKey = "tengri";
     if (!text.toLowerCase().includes(searchKey) && document.body.classList.contains("tengri-kaos-aktif")) {
         stopTengriMadness();
     }
 }
 
-// 🚨 Butona tıklandığında siber kıyameti koparan asıl tetikleyici motor
+// 🚨 Butona tıklandığında siber kıyameti ve çığlığı tetikleyen motor
 function checkAndTriggerTengriKaos() {
     const text = document.getElementById(`input${currentActiveInputIndex}`).innerText;
     const searchKey = "tengri";
 
     if (text.toLowerCase().includes(searchKey)) {
         if (!document.body.classList.contains("tengri-kaos-aktif")) {
-            // 1. Çığlık at
+            
+            // 1. Çığlık Sesi Kesin Tetikleme Motoru
             screamAudio.volume = 1.0;
             screamAudio.currentTime = 0;
-            screamAudio.play().catch(e => console.log("Etkileşim engeli."));
+            let playPromise = screamAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Tarayıcı koruması nedeniyle alternatif tetikleme devrede.");
+                });
+            }
 
-            // 2. Kaos sınıflarını ve başlıkları değiştir
+            // 2. Kaos Tasarımları
             document.body.classList.add("tengri-kaos-aktif");
             document.querySelector(".oracle-title").innerText = "🚨 SİSTEM ÇÖKTÜ! SİBER RUHLAR ELE GEÇİRDİ!";
             document.getElementById("oracle-display").innerText = "TENGRİ MODU TETİKLENDİ. GERİ DÖNÜŞ YOK!";
             document.getElementById("cyber-watermark").innerText = "TENGRİ";
 
-            // 3. Temayı otomatik olarak kan kırmızısı yap
+            // 3. Kan Kırmızı Temaya Geçiş
             const crimsonBtn = document.getElementById("crimson-dot-btn");
             changeTheme('crimson', crimsonBtn);
 
-            // 4. Müzik hızını 2 katına çıkar
+            // 4. Şarkı Hızlandırma
             if (audio) { audio.playbackRate = 2.0; }
 
-            // 5. Elementleri rastgele yerlere fırlatmaya başla
+            // 5. Deprem Efekti Motoru
             const targets = document.querySelectorAll(".crazy-target");
             kaosInterval = setInterval(() => {
                 targets.forEach(el => {
@@ -449,14 +462,12 @@ function checkAndTriggerTengriKaos() {
     }
 }
 
-// Sistemi eski kararlı ve asil siyah haline getiren fonksiyon
 function stopTengriMadness() {
     document.body.classList.remove("tengri-kaos-aktif");
     document.querySelector(".oracle-title").innerText = "⚡ ORACLE / GÜNÜN SİBER KEHANETİ";
     document.getElementById("oracle-display").innerText = "Küreye tıkla ve siber kaderinle yüzleş...";
     document.getElementById("cyber-watermark").innerText = "SiberOS";
     
-    // Temayı tekrar Midnight OLED (Siyah) yap
     const darkDot = document.getElementById("dark-dot-btn");
     changeTheme('dark', darkDot);
 
@@ -464,9 +475,7 @@ function stopTengriMadness() {
 
     clearInterval(kaosInterval);
     const targets = document.querySelectorAll(".crazy-target");
-    targets.forEach(el => {
-        el.style.transform = "none";
-    });
+    targets.forEach(el => { el.style.transform = "none"; });
 }
 
 function openTab(i){ 
@@ -544,11 +553,11 @@ function copyToClipboard(elementId) {
 }
 
 function cleanSpaces(){ 
-    checkAndTriggerTengriKaos(); // Butona basıldığında kaosu kontrol et
+    checkAndTriggerTengriKaos(); 
     document.getElementById("output1").innerHTML = processUltraEngine("input1", false); 
 }
 function fixText(){ 
-    checkAndTriggerTengriKaos(); // Butona basıldığında kaosu kontrol et
+    checkAndTriggerTengriKaos(); 
     document.getElementById("output2").innerHTML = processUltraEngine("input2", true); 
 }
 function handleEnterKey(e) { if (e.key === "Enter") { document.execCommand('insertLineBreak', false, null); e.preventDefault(); } }
@@ -564,6 +573,7 @@ window.addEventListener("DOMContentLoaded", function() {
     const darkDot = document.querySelector(".id-dark-dot");
     if (darkDot) { changeTheme('dark', darkDot); }
     initPlayer();
+    document.body.addEventListener("click", unlockAudioContext); // Sayfaya ilk tıkla kilidi kaldır
 });
 
 /* ==========================================================================
@@ -571,23 +581,23 @@ window.addEventListener("DOMContentLoaded", function() {
    ========================================================================== */
 
 const musicList = [
-    { title: "", url: "./muzikler/1.mp3" },
-    { title: "", url: "./muzikler/12345.mp3" },
-    { title: "", url: "./muzikler/2.mp3" },
-    { title: "", url: "./muzikler/3.mp3" },
-    { title: "", url: "./muzikler/4.mp3" },
-    { title: "", url: "./muzikler/5.mp3" },
-    { title: "", url: "./muzikler/6.mp3" },
-    { title: "", url: "./muzikler/7.mp3" },
-    { title: "", url: "./muzikler/8.mp3" },
-    { title: "", url: "./muzikler/9.mp3" },
-    { title: "", url: "./muzikler/10.mp3" },
-    { title: "", url: "./muzikler/11.mp3" },
-    { title: "", url: "./muzikler/12.mp3" },
-    { title: "", url: "./muzikler/13.mp3" },
-    { title: "", url: "./muzikler/14.mp3" },
-    { title: "", url: "./muzikler/15.mp3" },
-    { title: "", url: "./muzikler/16.mp3" }
+    { title: "Siber Parça 1", url: "./muzikler/1.mp3" },
+    { title: "Siber Parça 2", url: "./muzikler/12345.mp3" },
+    { title: "Siber Parça 3", url: "./muzikler/2.mp3" },
+    { title: "Siber Parça 4", url: "./muzikler/3.mp3" },
+    { title: "Siber Parça 5", url: "./muzikler/4.mp3" },
+    { title: "Siber Parça 6", url: "./muzikler/5.mp3" },
+    { title: "Siber Parça 7", url: "./muzikler/6.mp3" },
+    { title: "Siber Parça 8", url: "./muzikler/7.mp3" },
+    { title: "Siber Parça 9", url: "./muzikler/8.mp3" },
+    { title: "Siber Parça 10", url: "./muzikler/9.mp3" },
+    { title: "Siber Parça 11", url: "./muzikler/10.mp3" },
+    { title: "Siber Parça 12", url: "./muzikler/11.mp3" },
+    { title: "Siber Parça 13", url: "./muzikler/12.mp3" },
+    { title: "Siber Parça 14", url: "./muzikler/13.mp3" },
+    { title: "Siber Parça 15", url: "./muzikler/14.mp3" },
+    { title: "Siber Parça 16", url: "./muzikler/15.mp3" },
+    { title: "Siber Parça 17", url: "./muzikler/16.mp3" }
 ];
 
 let currentTrackIndex = 0;
