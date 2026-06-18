@@ -83,12 +83,12 @@ body {
 }
 
 .tengri-kaos-aktif {
-    animation: siberDeprem 0.15s infinite linear !important;
+    animation: siberDeprem 0.12s infinite linear !important;
 }
 
-/* Kaos anında elementlerin yumuşakça uçuşması ve parlaması */
+/* Kaos anında elementlerin parlaması ve sarsıntı yumuşaklığı */
 .tengri-kaos-aktif .crazy-target {
-    transition: transform 0.12s cubic-bezier(0.25, 0.8, 0.25, 1), left 0.12s, top 0.12s;
+    transition: transform 0.08s linear, left 0.08s, top 0.08s;
     box-shadow: 0 0 25px var(--accent-color) !important;
     border-color: var(--accent-color) !important;
 }
@@ -327,7 +327,7 @@ const oracleQuotes = [
     "Bugün birisi sana 'Bakar mısın?' diyecek. Duymamazlıktan gel, iş yıkmaya çalışıyorlar.",
     "Kaderinde yakın zamanda bir zam, terfi veya en kötü ihtimalle çok tatlı bir öğle yemeği ısmarlanması yok.",
     "Metnini temizledin, peki ya zihnini? Bir ara arkana yaslan ve derin bir nefes al şampiyon.",
-    "Bugün kurumsal dünyayı dize getirebilecek bir enerjiye sahipsin ama canın istemiyor, çok haklısın.",
+    "Bugün kurumsal dünyayı dize getirebilecek bir energyye sahipsin ama canın istemiyor, çok haklısın.",
     "Gelecekte harika bir tatil görüyorum. Ama o geleceğe daha çok var, şimdi şu metni hallet.",
     "Siber evren sana mesaj gönderiyor: 'Bugün o klavyeye biraz daha yumuşak bas, o da bir can.'",
     "Seni çekemeyenlerin algoritması çöksün, tarayıcıları kapansın, ramleri yansın. Sen devam et.",
@@ -389,6 +389,10 @@ function showToast() {
 }
 
 let kaosInterval = null;
+let isTengriMode = false; // Kaos durumunu takip eden bayrak
+
+// Korku Çığlığı Audio Dosyası
+const screamAudio = new Audio("https://actions.google.com/sounds/v1/horror/female_scream_loud.ogg");
 
 function calculateMeta(tabIndex) { 
     const text = document.getElementById(`input${tabIndex}`).innerText; 
@@ -399,10 +403,11 @@ function calculateMeta(tabIndex) {
     document.getElementById(`word-count-${tabIndex}`).innerHTML = `Kelime: <strong>${wordCount}</strong>`; 
 
     // ==========================================================================
-    // 🌀 GENİŞLETİLMİŞ TENGRİ EASTER EGG MOTORU (KAOS & 2X MÜZİK)
+    // 🌀 TENGRİ EASTER EGG KONTROLÜ
     // ==========================================================================
     const searchKey = "tengri";
     if (text.toLowerCase().includes(searchKey)) {
+        isTengriMode = true;
         if (!document.body.classList.contains("tengri-kaos-aktif")) {
             document.body.classList.add("tengri-kaos-aktif");
             document.querySelector(".oracle-title").innerText = "🚨 KAOS SİSTEMİ AKTİF! TENGRİ MODU!";
@@ -414,7 +419,6 @@ function calculateMeta(tabIndex) {
             const targets = document.querySelectorAll(".crazy-target");
             kaosInterval = setInterval(() => {
                 targets.forEach(el => {
-                    // Rastgele küçük kayma değerleri (pixel)
                     const randX = Math.floor(Math.random() * 40) - 20; 
                     const randY = Math.floor(Math.random() * 40) - 20;
                     const randRot = Math.floor(Math.random() * 10) - 5;
@@ -423,21 +427,28 @@ function calculateMeta(tabIndex) {
             }, 100);
         }
     } else {
-        // Kelime temizlenirse her şeyi milimetrik olarak eski haline getir
+        isTengriMode = false;
         if (document.body.classList.contains("tengri-kaos-aktif")) {
             document.body.classList.remove("tengri-kaos-aktif");
             document.querySelector(".oracle-title").innerText = "⚡ ORACLE / GÜNÜN SİBER KEHANETİ";
             
-            // Müzik hızını normale döndür
             if (audio) { audio.playbackRate = 1.0; }
 
-            // Döngüyü kır ve tüm elementlerin konumlarını sıfırla
             clearInterval(kaosInterval);
             const targets = document.querySelectorAll(".crazy-target");
             targets.forEach(el => {
                 el.style.transform = "none";
             });
         }
+    }
+}
+
+// 🚨 Butona tıklandığında çığlık sesini tetikleyen kontrol fonksiyonu
+function triggerScreamIfTengri() {
+    if (isTengriMode) {
+        screamAudio.volume = 1.0; // Sesi maksimuma çek
+        screamAudio.currentTime = 0; // Başa sar
+        screamAudio.play().catch(e => console.log("Ses çalma engellendi, önce sayfaya tıklayın."));
     }
 }
 
@@ -515,8 +526,14 @@ function copyToClipboard(elementId) {
     navigator.clipboard.write(data).then(() => { showToast(); }); 
 }
 
-function cleanSpaces(){ document.getElementById("output1").innerHTML = processUltraEngine("input1", false); }
-function fixText(){ document.getElementById("output2").innerHTML = processUltraEngine("input2", true); }
+function cleanSpaces(){ 
+    triggerScreamIfTengri(); // Çığlık tetikleyici
+    document.getElementById("output1").innerHTML = processUltraEngine("input1", false); 
+}
+function fixText(){ 
+    triggerScreamIfTengri(); // Çığlık tetikleyici
+    document.getElementById("output2").innerHTML = processUltraEngine("input2", true); 
+}
 function handleEnterKey(e) { if (e.key === "Enter") { document.execCommand('insertLineBreak', false, null); e.preventDefault(); } }
 
 document.getElementById("input1").addEventListener("keydown", handleEnterKey);
@@ -567,7 +584,6 @@ function initPlayer() {
 
 function loadTrack(index) {
     audio.src = musicList[index].url;
-    // Eğer başlık boş girildiyse dosya adını ayıkla
     document.getElementById("track-name").innerText = musicList[index].title || musicList[index].url.split('/').pop();
     document.getElementById("track-index").innerText = `Şarkı: ${index + 1} / ${musicList.length}`;
 }
@@ -593,7 +609,6 @@ function nextTrack() {
     currentTrackIndex = (currentTrackIndex + 1) % musicList.length;
     loadTrack(currentTrackIndex);
     if (isPlaying) {
-        // Eğer Tengri modu aktifse şarkı değiştiğinde de 2x kalmasını garantiliyoruz
         if(document.body.classList.contains("tengri-kaos-aktif")) { audio.playbackRate = 2.0; }
         audio.play();
     }
