@@ -28,7 +28,7 @@
     --accent-glow: rgba(255, 255, 255, 0.15);
 }
 
-/* TEMA RENKLERİ GERİ KALANLAR */
+/* TEMA RENKLERİ GERI KALANLAR */
 html[data-theme="crimson"] {
     --bg-main: #0c0808; --bg-container: #161010; --bg-input: #080505; --bg-btn: #241818; --bg-btn-hover: #332222; --bg-tab-active: #332222; --text-main: #b8a0a0; --text-input: #f5eded; --text-heading: #ffffff; --text-btn: #e63946; --border-color: #402b2b; --border-container: #2e1f1f; --accent-color: #d62828; --accent-glow: rgba(214, 40, 40, 0.4);
 }
@@ -132,13 +132,7 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
 }
 .cyber-player.minimized {
-    transform: translateY(calc(100% - 32px));
-}
-.player-top-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+    transform: translateY(100%);
 }
 .player-toggle-btn {
     position: absolute;
@@ -153,11 +147,22 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     letter-spacing: 1px;
     border-radius: 6px 6px 0 0;
     color: var(--text-main);
-    transition: all 0.2s;
+    transition: all 0.2s, top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+.cyber-player.minimized .player-toggle-btn {
+    top: -24px;
+    border: 1px solid var(--border-container);
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
 }
 .player-toggle-btn:hover {
     color: var(--text-heading);
     background: var(--bg-btn-hover);
+}
+.player-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }
 .player-info {
     display: flex;
@@ -386,7 +391,7 @@ const oracleQuotes = [
    "Hayatındaki bazı insanlar tıpkı eski sevgilinin Spotify'da hala seni takip eden gizli hesabı gibiler; orada bir yerde bir '1' rakamı olarak dururlar ama hayatına ne bir ritim katarlar ne bir melodi.",
    "Bazı insanlar tıpkı bedava diye indirdiğin o mobil uygulamanın içindeki reklamlar gibiler; her 5 saniyede bir karşına çıkıp 'Hadi beni premium yap' diye ısrar ederler ama kendilerinde hiç premium kumaş yoktur.",
    "Günün özlü sözü: Yanlış kod satırı Ctrl + Z ile silinir, yanlış insan hayatından Ctrl + Alt + Delete yapsan da kolay kolay temizlenmez.",
-   "Günün özlü sözü: Metindeki eksik harf hemen fark edilir và tamamlanır; insanın içindeki eksik karakteri ise yıllarca fark edemezsin.",
+   "Günün özlü sözü: Metindeki eksik harf hemen fark edilir ve tamamlanır; insanın içindeki eksik karakteri ise yıllarca fark edemezsin.",
    "Günün özlü sözü: Tasarımdaki pikselleri büyütüp düzeltebilirsin ama vizyonu küçük insanı ne kadar büyütürsen büyüt, sadece görüntüsü bulanıklaşır.",
    "Günün özlü sözü: Bozuk dosya formatı dönüştürücüyle kurtarılır, bozuk karakterli insanı hangi kalıba sokarsan sok yine hata verir.",
    "Günün özlü sözü: Yazım hatası gözden kaçar, görmezden gelinir; ama insanın hatası bir kez göze battı mı bir daha asla unutturulmaz.",
@@ -404,7 +409,7 @@ const oracleQuotes = [
    "Senin başarılarını görmezden gelenlerin en sevdikleri döküman, tam 'Kaydet' tuşuna basacakken elektrik kesintisiyle uçup gitsin. Amin.",
    "Sana sürekli 'Biz bir aileyiz' deyip mesai ücretini vermeyenlerin şirket arabasının lastiği tam da sanayiye en uzak mesafede patlasın. Amin.",
    "Bugün 'Seni çok iyi anlıyorum' diyenlerin aslında 'Şu an seni hiç dinlemiyorum, sadece kendi konuşma sıramın gelmesini bekliyorum' demek istediğini bir kez daha anlayacaksın.",
-   "Bugün müdürün 'Bu projede senin vizyonuna güveniyorum' demesinin aslında 'Hata çıkarsa faturayı tamamen sana keseceğim' demek olduğunu acı bir tebessümle fark edeceksiniz.",
+   "Bugün müdürün 'Bu projede senin vizyonuna güveniyorum' demesinin aslında 'Hata çıkarsa faturayı tamamen sana keseceğim' demek olduğunu acı bir tebessümle fark edeceksin.",
    "Bugün 'Önceliğimiz çalışan mutluluğu' sloganının aslında 'Ofise langırt koyduk ama oynarsan gözümüz üstünde olur' demek olduğunu anlayacaksın.",
    "Bugün 'Aramızda çok güzel bir sinerji oluştu' iltifatının aslında 'Sen ne desen onaylıyorsun, işleri de sessizce yapıyorsun, tam aradığımız kölesin' anlamına geldiğini anlayacaksın.",
    "Bugün 'Biz burada bir aileyiz' söyleminin aslında 'Haklarını ararken fazla profesyonel düşünme, fedakarlık yaparken de sınır tanıma' anlamına geldiğini bir kez daha anlayacaksın.",
@@ -439,14 +444,14 @@ const oracleQuotes = [
    "Bugün birisi sana 'Bakar mısın?' diyecek. Duymamazlıktan gel, iş yıkmaya çalışıyorlar.",
    "Kaderinde yakın zamanda bir zam, terfi veya en kötü ihtimalle çok tatlı bir öğle yemeği ısmarlanması yok.",
    "Metnini temizledin, peki ya zihnini? Bir ara arkana yaslan ve derin bir nefes al şampiyon.",
-   "Bugün kurumsal dünyayı dize getirebilecek bir enerjiye sahipsin ama canın istemiyor, çok haklısın.",
+   "Bugün kurumsal dünyayı dize getirebilecek bir energye sahipsin ama canın istemiyor, çok haklısın.",
    "Gelecekte harika bir tatil görüyorum. Ama o geleceğe daha çok var, şimdi şu metni hallet.",
    "Siber evren sana mesaj gönderiyor: 'Bugün o klavyeye biraz daha yumuşak bas, o da bir can.'",
    "Seni çekemeyenlerin algoritması çöksün, tarayıcıları kapansın, ramleri yansın. Sen devam et.",
    "Bugün yapacağın en büyük hata, biten işi teslim ettikten sonra 'Başka bir şey var mıydı?' diye sormak olur. Sorma.",
    "Bugün karşına çıkacak saçmalıklara karşı sabrın, bu panelin siyahlığı kadar derin ve sınırsız olsun.",
    "Metindeki çift boşlukları avladığın gibi hayattaki iki yüzlüleri de avlayacağın keskin bir gün.",
-   "Günün tavsiyesi: O sekmeyi kapat. Hangi sekme olduğunu biliyorsun. Kapat gitsin.",
+   "Günun tavsiyesi: O sekmeyi kapat. Hangi sekme olduğunu biliyorsun. Kapat gitsin.",
    "Küre fısıldıyor: Akşama güzel bir dizi/film patlat, bütün günün yükünü silsin süpürsün.",
    "Yazım hatalarını düzelttiğin gibi hayatına da ince bir ayar çekiyorsun. Doğru yoldasın.",
    "Bugün müşteriden gelen 'Elinize sağlık çok güzel olmuş' mesajını göreceksiniz. (Şaka şaka, revizyon var).",
