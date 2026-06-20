@@ -63,7 +63,7 @@ button, .tab-btn, .theme-dot, .oracle-sphere { cursor: pointer; }
 
 body {
     margin:0;
-    padding:20px 20px 140px 20px; 
+    padding:20px 20px 150px 20px; 
     background: var(--bg-main) !important; 
     color: var(--text-main) !important;
     font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
@@ -114,32 +114,39 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
 @keyframes pulse{ 0%,100%{transform:scale(1); opacity: 0.012;} 50%{transform:scale(1.01); opacity: 0.02;} }
 
 /* ==========================================================================
-   🎵 PREMIUM CYBER AUDIO PLAYER STYLES (EPIC INTERACTIVE SÜRÜM)
+   🎵 GIGANTIC UPGRADE: EPIC DARK MATTER CYBER AUDIO COMMAND STATION
    ========================================================================== */
 .cyber-player {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: linear-gradient(180deg, rgba(9, 9, 10, 0.95) 0%, rgba(2, 2, 3, 0.98) 100%);
+    background: linear-gradient(180deg, rgba(2, 2, 3, 0.96) 0%, rgba(0, 0, 0, 0.99) 100%);
     border-top: 1px solid var(--border-container);
-    padding: 14px 40px 18px 40px;
+    padding: 18px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 -15px 35px rgba(0,0,0,0.9);
+    box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.03);
     z-index: 9999;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(25px);
 }
 
-/* Tıklanabilir Profesyonel İlerleme Çubuğu Kapsayıcısı */
+/* Çift Taraflı Siber Neon Şeritler */
+.cyber-player::after {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    opacity: 0.2; box-shadow: 0 0 10px var(--accent-color);
+}
+
+/* İnteraktif Siber Zaman Çizelgesi */
 .progress-container {
     position: absolute;
-    top: -4px;
+    top: -5px;
     left: 0;
     width: 100%;
-    height: 8px;
+    height: 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -147,19 +154,19 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
 }
 .progress-bar-bg {
     width: 100%;
-    height: 3px;
-    background: rgba(255, 255, 255, 0.05);
+    height: 2px;
+    background: rgba(255, 255, 255, 0.04);
     position: relative;
-    transition: height 0.15s ease;
+    transition: height 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .progress-container:hover .progress-bar-bg {
-    height: 5px;
+    height: 6px;
 }
 .progress-bar-fill {
     height: 100%;
     width: 0%;
-    background: var(--accent-color);
-    box-shadow: 0 0 12px var(--accent-color);
+    background: linear-gradient(90deg, var(--accent-color) 0%, var(--text-heading) 100%);
+    box-shadow: 0 0 14px var(--accent-color), 0 0 4px var(--accent-color);
     position: absolute;
     top: 0;
     left: 0;
@@ -169,7 +176,7 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     display: flex;
     align-items: center;
     gap: 16px;
-    width: 30%;
+    width: 28%;
 }
 .player-icon-wrapper {
     position: relative;
@@ -178,17 +185,17 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     justify-content: center;
 }
 .player-icon {
-    font-size: 26px;
-    animation: rotateDisc 3.5s linear infinite;
+    font-size: 28px;
+    animation: rotateDisc 4s linear infinite;
     animation-play-state: paused;
+    filter: drop-shadow(0 0 5px var(--accent-glow));
     z-index: 2;
 }
 .cyber-player.playing .player-icon {
     animation-play-state: running;
 }
 @keyframes rotateDisc {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); }
 }
 
 .track-details {
@@ -199,21 +206,20 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     color: var(--text-heading);
     font-size: 13px;
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     min-height: 18px;
-    text-shadow: 0 0 8px var(--accent-glow);
 }
 .track-meta-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 3px;
+    gap: 12px;
+    margin-top: 4px;
 }
 .track-index {
     color: var(--text-main);
     font-size: 10px;
     font-family: monospace;
-    opacity: 0.5;
+    opacity: 0.4;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -222,113 +228,87 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     font-size: 10px;
     font-family: monospace;
     letter-spacing: 0.5px;
-    opacity: 0.7;
+    text-shadow: 0 0 4px var(--accent-glow);
 }
 
-/* Siber Ses Dalgası Efekti (Gerçekçi Senkronizasyonlu) */
-.cyber-visualizer {
+/* 🎚️ SESE DUYARLI GERÇEK FREKANS ANALİZÖRÜ (CANLI CANVAS) */
+.visualizer-container {
+    width: 140px;
+    height: 32px;
     display: flex;
-    align-items: flex-end;
-    gap: 3px;
-    height: 18px;
-    width: 60px;
+    align-items: center;
     justify-content: center;
+    opacity: 0.25;
+    transition: opacity 0.3s ease;
 }
-.visualizer-bar {
-    width: 3px;
-    height: 3px;
-    background-color: var(--accent-color);
-    opacity: 0.15;
-    border-radius: 1px;
+.cyber-player.playing .visualizer-container {
+    opacity: 0.85;
 }
-.cyber-player.playing .visualizer-bar {
-    opacity: 0.8;
-    box-shadow: 0 0 5px var(--accent-glow);
-    animation: bounceBar 0.8s ease-in-out infinite alternate;
-}
-.cyber-player.playing .visualizer-bar:nth-child(1) { animation-delay: 0.1s; animation-duration: 0.5s; }
-.cyber-player.playing .visualizer-bar:nth-child(2) { animation-delay: 0.3s; animation-duration: 0.8s; }
-.cyber-player.playing .visualizer-bar:nth-child(3) { animation-delay: 0.0s; animation-duration: 0.6s; }
-.cyber-player.playing .visualizer-bar:nth-child(4) { animation-delay: 0.4s; animation-duration: 0.7s; }
-.cyber-player.playing .visualizer-bar:nth-child(5) { animation-delay: 0.2s; animation-duration: 0.4s; }
-
-@keyframes bounceBar {
-    0% { height: 3px; }
-    100% { height: 18px; }
+#freq-canvas {
+    width: 100%;
+    height: 100%;
 }
 
 .player-controls-wrapper {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 20px;
 }
 .player-controls {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 .player-btn {
-    padding: 9px 18px;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    border-radius: 20px;
+    padding: 9px 16px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    border-radius: 6px;
     background: var(--bg-input);
     border-color: var(--border-color);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.player-btn:hover {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 10px var(--accent-glow);
-    transform: translateY(-1px);
+    font-weight: 600;
 }
 #play-pause-btn {
     background: var(--text-heading);
     color: var(--bg-main);
     border-color: var(--text-heading);
-    padding: 10px 24px;
+    padding: 10px 22px;
     font-weight: 700;
-}
-#play-pause-btn:hover {
-    background: var(--bg-main);
-    color: var(--text-heading);
-    box-shadow: 0 0 15px var(--accent-glow);
+    border-radius: 6px;
 }
 
-/* Gizli Akıllı Ses Paneli */
+/* Karıştır & Tekrar Modu Buton Stilleri */
+.mod-btn {
+    opacity: 0.35;
+    font-size: 11px;
+    padding: 9px 12px;
+}
+.mod-btn.active {
+    opacity: 1;
+    color: #52b788 !important; /* Siber Yeşil */
+    border-color: #275239 !important;
+    background: rgba(45, 106, 79, 0.15);
+    box-shadow: 0 0 10px rgba(82, 183, 136, 0.2);
+}
+
+/* Ses Ayar Paneli */
 .volume-container {
     display: flex;
     align-items: center;
     gap: 8px;
-    width: 80px;
-    opacity: 0.4;
+    width: 75px;
+    opacity: 0.3;
     transition: opacity 0.2s ease;
 }
-.volume-container:hover {
-    opacity: 0.9;
-}
-.volume-icon {
-    font-size: 14px;
-    color: var(--text-main);
-    user-select: none;
-}
+.volume-container:hover { opacity: 0.9; }
+.volume-icon { font-size: 13px; color: var(--text-main); }
 .volume-slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 3px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    outline: none;
+    -webkit-appearance: none; width: 100%; height: 2px;
+    background: rgba(255, 255, 255, 0.08); outline: none;
 }
 .volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent-color);
-    cursor: pointer;
-    box-shadow: 0 0 5px var(--accent-color);
+    -webkit-appearance: none; width: 8px; height: 8px;
+    border-radius: 50%; background: var(--accent-color); cursor: pointer;
 }
 </style>
 </head>
@@ -421,19 +401,17 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
         </div>
     </div>
     
-    <div class="cyber-visualizer">
-        <div class="visualizer-bar"></div>
-        <div class="visualizer-bar"></div>
-        <div class="visualizer-bar"></div>
-        <div class="visualizer-bar"></div>
-        <div class="visualizer-bar"></div>
+    <div class="visualizer-container">
+        <canvas id="freq-canvas"></canvas>
     </div>
 
     <div class="player-controls-wrapper">
         <div class="player-controls">
+            <button class="player-btn mod-btn" id="shuffle-btn" onclick="toggleShuffle()" title="Karıştır">🔀</button>
             <button class="player-btn" onclick="prevTrack()">⏮ GERİ</button>
             <button id="play-pause-btn" class="player-btn" onclick="togglePlay()">▶ OYNAT</button>
             <button class="player-btn" onclick="nextTrack()">İLERİ ⏭</button>
+            <button class="player-btn mod-btn" id="repeat-btn" onclick="toggleRepeat()" title="Tekrar Et">🔁</button>
         </div>
         
         <div class="volume-container">
@@ -441,7 +419,7 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
             <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.05" value="0.7" oninput="setVolume(this.value)">
         </div>
     </div>
-    <audio id="main-audio" src=""></audio>
+    <audio id="main-audio" src="" crossorigin="anonymous"></audio>
 </div>
 
 <script>
@@ -670,19 +648,80 @@ window.addEventListener("DOMContentLoaded", function() {
 });
 
 // ==========================================================================
-// 🎵 PREMIUM INTERACTIVE AUDIO PLAYER ENGINE (UPGRADED)
+// 🎵 AUDIO COMMAND CENTER SYSTEM ENGINE WITH REAL VISUALIZER
 // ==========================================================================
+
+let isShuffle = false;
+let isRepeat = false;
+let audioContext, analyser, sourceNode;
+let visualizerInitialized = false;
 
 function initPlayer() {
     loadTrack(currentTrackIndex);
     
-    // Şarkı süresi ve ilerleme çubuğu takip tetikleyicileri
     audio.addEventListener("timeupdate", updatePlayerProgress);
     audio.addEventListener("loadedmetadata", updatePlayerProgress);
-    audio.addEventListener("ended", nextTrack);
+    audio.addEventListener("ended", handleTrackEnded);
     
-    // Varsayılan başlangıç sesi
     audio.volume = 0.7;
+}
+
+// Sese Duyarlı Gerçek Zamanlı Frekans Analiz Motoru
+function initVisualizer() {
+    if (visualizerInitialized) return;
+    
+    try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 32; // İnce ve asil 16 frekans barı için
+        
+        sourceNode = audioContext.createMediaElementSource(audio);
+        sourceNode.connect(analyser);
+        analyser.connect(audioContext.destination);
+        
+        visualizerInitialized = true;
+        drawVisualizer();
+    } catch (e) {
+        console.log("Frekans analiz motoru başlatılamadı (Kullanıcı etkileşimi bekleniyor).");
+    }
+}
+
+function drawVisualizer() {
+    const canvas = document.getElementById("freq-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    
+    // Canvas çözünürlük senkronizasyonu
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+
+    function renderFrame() {
+        requestAnimationFrame(renderFrame);
+        analyser.getByteFrequencyData(dataArray);
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        let barWidth = (canvas.width / bufferLength) * 0.7;
+        let barGap = (canvas.width / bufferLength) * 0.3;
+        let x = 0;
+        
+        // Temadan güncel siber neon rengini çekme
+        let computedColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#ffffff';
+        
+        for (let i = 0; i < bufferLength; i++) {
+            // Ham veriyi panel boyuna ölçekleme
+            let barHeight = (dataArray[i] / 255) * canvas.height;
+            if (barHeight < 2) barHeight = 2; // Sessizlikte bile zarif taban çizgisi
+            
+            ctx.fillStyle = computedColor;
+            ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+            
+            x += barWidth + barGap;
+        }
+    }
+    renderFrame();
 }
 
 function loadTrack(index) {
@@ -695,13 +734,21 @@ function togglePlay() {
     const playBtn = document.getElementById("play-pause-btn");
     const playerEl = document.getElementById("cyber-audio-player");
     
+    // İlk oynatmada ses motorunu devreye alma güvenlik kilidi
+    if (window.AudioContext || window.webkitAudioContext) {
+        initVisualizer();
+        if (audioContext && audioContext.state === 'suspended') {
+            audioContext.resume();
+        }
+    }
+    
     if (isPlaying) {
         audio.pause();
         isPlaying = false;
         playBtn.innerHTML = "▶ OYNAT";
         playerEl.classList.remove("playing");
     } else {
-        audio.play().catch(e => console.log("Etkileşim bekleniyor..."));
+        audio.play().catch(e => console.log("Kaynak hatası veya medya yüklenemedi."));
         isPlaying = true;
         playBtn.innerHTML = "⏸ DURDUR";
         playerEl.classList.add("playing");
@@ -709,7 +756,11 @@ function togglePlay() {
 }
 
 function nextTrack() {
-    currentTrackIndex = (currentTrackIndex + 1) % musicList.length;
+    if (isShuffle) {
+        currentTrackIndex = Math.floor(Math.random() * musicList.length);
+    } else {
+        currentTrackIndex = (currentTrackIndex + 1) % musicList.length;
+    }
     loadTrack(currentTrackIndex);
     if (isPlaying) audio.play().catch(e => {});
 }
@@ -720,7 +771,25 @@ function prevTrack() {
     if (isPlaying) audio.play().catch(e => {});
 }
 
-// Zaman formatlama yardımcı fonksiyonu (00:00)
+function handleTrackEnded() {
+    if (isRepeat) {
+        audio.currentTime = 0;
+        audio.play().catch(e => {});
+    } else {
+        nextTrack();
+    }
+}
+
+function toggleShuffle() {
+    isShuffle = !isShuffle;
+    document.getElementById("shuffle-btn").classList.toggle("active", isShuffle);
+}
+
+function toggleRepeat() {
+    isRepeat = !isRepeat;
+    document.getElementById("repeat-btn").classList.toggle("active", isRepeat);
+}
+
 function formatTime(secs) {
     if (isNaN(secs)) return "00:00";
     let minutes = Math.floor(secs / 60);
@@ -728,7 +797,6 @@ function formatTime(secs) {
     return (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 }
 
-// İlerleme ve Süre Göstergelerini Güncelleme
 function updatePlayerProgress() {
     const progressFill = document.getElementById("progress-fill");
     const timeDisplay = document.getElementById("time-display");
@@ -736,7 +804,6 @@ function updatePlayerProgress() {
     if (audio.duration) {
         const percent = (audio.currentTime / audio.duration) * 100;
         progressFill.style.width = percent + "%";
-        
         timeDisplay.innerText = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
     } else {
         progressFill.style.width = "0%";
@@ -744,7 +811,6 @@ function updatePlayerProgress() {
     }
 }
 
-// İstediğin Saniyeye Atlama (Seek) Fonksiyonu
 function seekAudio(event) {
     const seekContainer = document.getElementById("seek-container");
     const rect = seekContainer.getBoundingClientRect();
@@ -756,7 +822,6 @@ function seekAudio(event) {
     }
 }
 
-// Ses Seviyesini Değiştirme
 function setVolume(val) {
     if (audio) {
         audio.volume = val;
