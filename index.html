@@ -119,45 +119,51 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     left: 0;
     width: 100%;
     z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* İçeriği sağa yaslamak için */
 }
 
 .slide-control-panel {
-    display: flex;
-    justify-content: center;
+    margin-right: 40px; /* Panel bitiş çizgisiyle hizalamak için sağ boşluk */
     margin-bottom: -1px;
+    z-index: 10000;
 }
 
 .slide-toggle-btn {
-    background: rgba(9, 9, 10, 0.9);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: var(--bg-container);
+    border: 1px solid var(--border-color);
     border-bottom: none;
-    color: var(--text-main);
-    font-size: 8px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    padding: 4px 24px;
-    border-radius: 20px 20px 0 0;
-    transition: all 0.3s ease;
+    color: var(--text-input);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 6px 20px;
+    border-radius: 8px 8px 0 0;
+    transition: all 0.2s ease;
     text-transform: uppercase;
-    opacity: 0.6;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+    opacity: 1; /* Artık daha belirgin */
 }
 .slide-toggle-btn:hover {
     color: var(--text-heading) !important;
-    opacity: 1;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-glow);
+    background: var(--bg-btn-hover);
 }
 
 .cyber-player {
     background: rgba(4, 4, 5, 0.95);
     backdrop-filter: blur(30px);
     border-top: 1px solid rgba(255, 255, 255, 0.02);
-    padding: 10px 40px;
+    padding: 12px 40px;
     display: flex;
     flex-direction: column;
     gap: 8px;
     box-shadow: 0 -15px 40px rgba(0,0,0,0.9);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     transform: translateY(0);
+    width: 100%;
 }
 
 .cyber-player.collapsed {
@@ -304,21 +310,23 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
 
 .timeline-row {
     width: 100%;
-    padding: 0;
+    padding: 4px 0 0 0;
 }
 
+/* 🎯 TIKLANABİLİR GELİŞMİŞ SARK SÜRÜCÜSÜ ALANI */
 .cyber-timeline {
     width: 100%;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.03);
+    height: 3px; /* Tıklaması daha kolay olsun diye 1px'den 3px'e çıkarıldı */
+    background: rgba(255, 255, 255, 0.05);
     border: none;
     position: relative;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, height 0.2s ease;
 }
 
 .cyber-timeline:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.15);
+    height: 5px; /* Üzerine gelince genişlesin */
 }
 
 .timeline-progress {
@@ -327,10 +335,10 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     top: 0;
     height: 100%;
     background: var(--text-heading);
-    opacity: 0.8;
+    opacity: 0.9;
     box-shadow: 0 0 8px var(--accent-color);
     width: 0%;
-    pointer-events: none;
+    pointer-events: none; /* Tıklamayı engellememesi için */
 }
 </style>
 </head>
@@ -418,7 +426,7 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
                 </div>
             </div>
             
-            <div class="player-center-visual {">
+            <div class="player-center-visual">
                 <div class="visualizer-container">
                     <canvas id="visualizer" class="visualizer-canvas"></canvas>
                 </div>
@@ -465,7 +473,7 @@ const oracleQuotes = [
    "Yükselen burcun bugün sana 'Özgürlük' vadediyor ama cüzdanındaki o tek haneli bakiye 'Esaretin bedeli'ni hatırlatıyor. Metni düzenlemeye ne dersin?",
    "İçindeki o gizli dahi 'Bu iş senin dehanı köreltiyor' diyor ama market sepetinin toplam tutarı 'Körelmeye devam et' diye fısıldıyor. Şu raporu temize çekelim.",
    "Bugün o 'Hayallerinin peşinden koş' günlerinden biri... Eğer hayalin bir sonraki ay kirayı geciktirmek değilse, gel şu grafiklerin üzerinden bir daha geçelim.",
-   "Doğum haritana göre bugün otorite figürleriyle yüzleşme günün. Ama cüzdanının haritasına göre müdürün her dediğine 'Çok haklısınız' deme günün. Metni pürüzsüz yapalım.",
+   "Doğum haritana göre hoyün otorite figürleriyle yüzleşme günün. Ama cüzdanının haritasına göre müdürün her dediğine 'Çok haklısınız' deme günün. Metni pürüzsüz yapalım.",
    "Şu an istifa etsen evren sana yeni kapılar açar elbet, ama o kapılardan içeri ev sahibi de girebilir. Gel risk almayalım, şu taslağı bir güzel toparlayalım.",
    "Bugün tam 'Kendi hikayeni yazma' günü. Ama o hikayenin ilk bölümü 'İşsizlik Maaşı Sırasında Bir Gün' olsun istemiyorsak, gel şu metni kusursuz hale getirelim.",
    "Şu an klavyeye çok sert basarak mail yazıyorsun, hıncını anlıyorum. Ama mekanik klavye fiyatları uçtu, tuş fırlarsa yenisini alamayız. Sakince o parmağını geri çek ve şu metni yumuşatarak düzenle.",
@@ -492,16 +500,16 @@ const oracleQuotes = [
    "Günün özlü sözü: Tasarımdaki pikselleri büyütüp düzeltebilirsin ama vizyonu küçük insanı ne kadar büyütürsen büyüt, sadece görüntüsü bulanıklaşır.",
    "Günün özlü sözü: Bozuk dosya formatı dönüştürücüyle kurtarılır, bozuk karakterli insanı hangi kalıba sokarsan sok yine hata verir.",
    "Günün özlü sözü: Yazım hatası gözden kaçar, görmezden gelinir; ama insanın hatası bir kez göze battı mı bir daha asla unutturulmaz.",
-   "Günün özlü sözü: Word belgesindeki boşluklar tek tıkla silinir; bazı insanların içindeki o devasa boşluğu ise ne yapsan dolduramazsın.",
+   "Günün özlü sözü: Word belgesindeki boşluklar tek tıkla silinir; bazı insanların içindeki o devasa boşluğu ise ne yapsan dolduramazsn.",
    "Günün özlü sözü: Fazla yazılan kelime metinden kolayca ayıklanır; hayatına fazla gelen insanı ayıklamak ise ömründen ömür alır.",
-   "Günün özlü sözü: Kötü tasarlanmış bir sayfa sıfırdan çizilir; kötü niyetli bir insanla yola çıktıysan o yolu kaç kere sıfırlarsan sıfırla hep çıkmaza girersin.",
+   "Günün özlü sözü: Kötü tasarlanmış bir sayfa sıfırdan çizilir; kötü niyetli bir insanla yola çıktıysan o yolu kaç kere sıfırlarsan sıfırlasan hep çıkmaza girersin.",
    "Günün özlü sözü: Yazının fontunu değiştirmek bir saniyeni alır; insanın rengini değiştirmesi ise sadece bir menfaatine bakar.",
    "Günün özlü sözü: Formüldeki hata Excel uyarısıyla çözülür; insanın hayatına kattığı hata ise ancak yıllar sonra tecrübeyle anlaşılır.",
    "Günün özlü sözü: Kaydedilmeyen veri için canın sıkılır ama unutulur; değer görmeyen emek için sızlayan kalbin sızısı ise kolay geçmez.",
    "Senin emeğinin üzerine konmaya çalışanlerin mikrofonu toplantıda açık kalsın da evde arkadan gelen o dedikodu sesleri tüm şirkete yayınlansın. Amin.",
    "Bugün işi sana kitleyip erken çıkanların bindiği metrobüs ters yöne gitsin, üstüne bir de telefonlarının şarjı yüzde 1'ken şarj aletlerini ofiste unuttuklarını fark etsinler. Amin.",
    "Bugün sana durduk yere revizyon üstüne revizyon verenlerin klavyesindeki Space tuşu bozulsun, tüm mailleri bitişik yazıp rezil olsunlar. Amin.",
-   "İş yapıyormuş gibi görünüp bütün gün sosyal medyada gezenlerin, yanlışlıkla şirket sahibinin 5 yıl önceki tatil fotoğrafını beğenmesine sebep olacak bir parmak kayması nasip et ya Rabbim. Amin.",
+   "İş yapıyormuş gibi görünüp bütün gün sosyal medyada gezenlerin, yanlışlıkla şirket sahibinin 5 yıl önceki tatil fotoğrafını beğenmesine sebocak bir parmak kayması nasip et ya Rabbim. Amin.",
    "Toplantıda seni zor durumda bırakmak için pusuya yatanların, tam konuşmaya başladıkları an boğazına gıcık otursun da sesleri helyum gazı çekmiş gibi çıksın. Amin.",
    "Senin başarılarını görmezden gelenlerin en sevdikleri döküman, tam 'Kaydet' tuşuna basacakken elektrik kesintisiyle uçup gitsin. Amin.",
    "Sana sürekli 'Biz bir aileyiz' deyip mesai ücretini vermeyenlerin şirket arabasının lastiği tam da sanayiye en uzak mesafede patlasın. Amin.",
@@ -517,7 +525,7 @@ const oracleQuotes = [
     "Bugün toplantıda masaya vurup 'Ben gidiyorum' demek için harika bir enerji var üstünde. Ama masaya vurursan laptop ekranı kırılır, masraf çıkar. Boşver, temizle metni geç.",
     "Kaderinde bugün çok radikal bir kariyer değişikliği görüyorum. Mesela 'Boşluk Temizleyici' sekmesinden 'Yazım Düzenleyici' sekmesine geçeceksin. Büyük devrim.",
     "Küre diyor ki: İstifa edip bir sahil kasabasında domates yetiştirmek harika bir fikir. Ama domates tohumu fiyatlarına bakınca bu panelin siyahlığı gözüne bir tık daha güzel geliyor, değil mi?",
-    "Bugün bir delilik yapıp Slack'ten 'Ben çıkıyorum, ne haliniz varsa görün' yazasın gelecek. Ama enter tuşuna basmadan önce kıdem tazminatını hesaplayıp yerine 'Harika bir feedback, hemen ilgileniyorum' yazacaksınız.",
+    "Bugün bir delilik yapıp Slack'ten 'Ben çıkıyorum, ne haliniz varsa görün' yazasın gelecek. Ama enter tuşuna basmadan önce kıdem tazminatını hesapayıp yerine 'Harika bir feedback, hemen ilgileniyorum' yazacaksınız.",
     "Yıldız haritana göre bugün kurumsal kölelik zincirlerini kırma günün! Ama Akbank, Garanti ve Yapı Kredi el ele tutuşup kapıda seni bekliyor. Zincirler kalsın, biz metindeki çift boşlukları kıralım.",
     "Küre diyor ki: İstifa et, her şeyi sat, Hindistan'a git ve ruhunu arındır. Ama uçak bileti fiyatlarına baktıktan sonra bu paneldeki 'Temizle' butonu gözüne Ganj Nehri'nden daha arındırıcı gelecek.",
     "Küre diyor ki: Sen bu dünyaya her sabah 8'de uyanıp elalemin excel tablosunu, word metnini düzeltmek için gelmedin. Sen çok daha büyük şeyler için yaratıldın... Şaka şaka, tam olarak bunun için geldin. Hadi yapıştır metni, mesai akıyor.",
@@ -563,7 +571,7 @@ const oracleQuotes = [
     "Küreye göre bugün alacağın en iyi karar, işi tam zamanında bırakıp bilgisayarı kapatmak olacak.",
     "Metindeki tüm pislikleri temizledin. Artık tertemiz bir sayfan var. Hayatın da böyle ferah olsun.",
     "Kafandaki düşünceler şu an temizlenmemiş bir HTML metni gibi karmakarışık. Bi' dur, sakinleş.",
-    "Bugün arkandan konuşanların tarayıcı geçmişi yanlışlıkla patronlarına mail gitsin. Amin.",
+    "Bugün arkandan konuşanlerin tarayıcı geçmişi yanlışlıkla patronlarına mail gitsin. Amin.",
     "Küre parlıyor: Bugün yapacağın işler gelecekteki rahatının temel taşları olacak. Sık dişini.",
     "Bugün kulaklığını tak ve dünyayı sessize al. Sadece sen, müziğin ve bu asil siyah panel.",
     "Günün özlü sözü: Hatalı metin düzeltilir, hatalı insan zor. Metinlerle uğraşmaya devam.",
@@ -713,12 +721,13 @@ function updateProgress() {
     document.getElementById('time-current').innerText = formatTime(audio.currentTime);
 }
 
+// 🎯 İSTEDİĞİN SANİYEYE ATLAMANI SAĞLAYAN MANTIKSAL FONKSİYON
 function seekTrack(e) {
     const timeline = document.getElementById('timeline');
     const rect = timeline.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const pct = clickX / rect.width;
-    if (audio.duration) {
+    if (audio && audio.duration) {
         audio.currentTime = pct * audio.duration;
     }
 }
@@ -726,8 +735,8 @@ function seekTrack(e) {
 function formatTime(secs) {
     if (isNaN(secs)) return "00:00";
     const m = Math.floor(secs / 60).toString().padStart(2, '0');
-    const s = Math.floor(secs % 60).toString().padStart(2, '0');
-    return `${m}:${s}`;
+    const m2 = Math.floor(secs % 60).toString().padStart(2, '0');
+    return `${m}:${m2}`;
 }
 
 function toggleCollapse() {
