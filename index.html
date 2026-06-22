@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HepsiBurada Panel</title>
+<title>Hepsiburada Ürün Açıklaması Düzenleyici</title>
 
 <style>
 /* ==========================================================================
@@ -169,12 +169,12 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
 .timeline-progress { height: 100%; width: 0%; background: var(--accent-color); box-shadow: 0 0 6px var(--accent-color); border-radius: 2px; pointer-events: none; }
 
 /* ==========================================================================
-   ☕ KAHVE MOLASI - ESTETİK ÇİZİM VE SEFFFAF HUZUR VEREN EFEKTLER
+   ☕ KAHVE MOLASI - DAHA ŞEFFAF VE GÜZEL DUMANLI TASARIM
    ========================================================================== */
 .coffee-modal {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(4, 4, 5, 0.85);
+    background: rgba(4, 4, 5, 0.65); /* Çok daha şeffaf bir arka plan */
     z-index: 100000;
     display: flex;
     flex-direction: column;
@@ -183,10 +183,11 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.6s ease;
+    backdrop-filter: blur(4px); /* Arka planı hafif yumuşatan estetik dokunuş */
 }
 .coffee-modal.show { opacity: 1; pointer-events: auto; }
 
-/* SVG Çizim Kupası ve Gelişmiş Duman Efekti */
+/* SVG Çizim Kupası ve Yoğun Harika Duman Efekti */
 .coffee-draw-wrapper {
     position: relative;
     width: 120px;
@@ -199,38 +200,38 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
 .coffee-svg {
     width: 90px;
     height: 90px;
-    stroke: #ffffff;
-    stroke-width: 2.5;
+    stroke: rgba(255, 255, 255, 0.45); /* Şeffaf tasarıma uygun zarif kupa çizgileri */
+    stroke-width: 2.2;
     stroke-linecap: round;
     stroke-linejoin: round;
     fill: none;
-    filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.2));
 }
 .vector-smoke {
     position: absolute;
-    top: -10px;
+    top: -20px;
     display: flex;
-    gap: 14px;
+    gap: 16px;
 }
 .vector-smoke span {
     display: block;
-    width: 3px;
-    height: 30px;
-    background: linear-gradient(to top, rgba(255,255,255,0.4), transparent);
-    border-radius: 4px;
-    filter: blur(2px);
-    animation: luxurySmoke 3.5s infinite ease-in-out;
+    width: 4px;
+    height: 45px;
+    background: linear-gradient(to top, rgba(255,255,255,0.6), rgba(255,255,255,0.1), transparent);
+    border-radius: 8px;
+    filter: blur(3px); /* Gerçekçi, güzel duman hissiyatı */
+    animation: luxurySmoke 3s infinite ease-in-out;
     opacity: 0;
 }
-.vector-smoke span:nth-child(1) { animation-delay: 0.2s; }
-.vector-smoke span:nth-child(2) { animation-delay: 1.2s; height: 40px; }
-.vector-smoke span:nth-child(3) { animation-delay: 0.7s; }
+.vector-smoke span:nth-child(1) { animation-delay: 0.1s; animation-duration: 2.8s; }
+.vector-smoke span:nth-child(2) { animation-delay: 0.9s; animation-duration: 3.4s; height: 55px; }
+.vector-smoke span:nth-child(3) { animation-delay: 0.5s; animation-duration: 3s; }
 
 @keyframes luxurySmoke {
-    0% { transform: translateY(15px) scaleX(1) skewX(0deg); opacity: 0; }
-    25% { opacity: 0.6; }
-    50% { transform: translateY(-15px) scaleX(1.5) skewX(10deg); opacity: 0.3; }
-    100% { transform: translateY(-40px) scaleX(2) skewX(-15deg); opacity: 0; }
+    0% { transform: translateY(20px) scaleX(0.8) skewX(0deg); opacity: 0; }
+    30% { opacity: 0.7; }
+    60% { transform: translateY(-10px) scaleX(1.4) skewX(12deg); opacity: 0.4; }
+    100% { transform: translateY(-45px) scaleX(2) skewX(-15deg); opacity: 0; }
 }
 
 /* Saydam, Huzur Veren Geçişli Yazı Alanı */
@@ -240,7 +241,7 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     font-size: 17px;
     font-weight: 300;
     line-height: 1.7;
-    color: rgba(255, 255, 255, 0.55); /* Saydam ve yormayan lüks görünüm */
+    color: rgba(255, 255, 255, 0.7); 
     letter-spacing: 0.8px;
     padding: 0 30px;
     min-height: 80px;
@@ -265,16 +266,19 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
 }
 
 /* ==========================================================================
-   🔥 TENGRİ FİZİKSEL ÇILDIRMA MODU (KÖŞELERE ÇARPIP SEKEN BUTONLAR)
+   🔥 TENGRİ KAOS EKRAN ORTASI TEK GÖRSEL MODU
    ========================================================================== */
-.tengri-static-img {
+.tengri-center-img {
     position: fixed;
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    z-index: 999995;
-    border: 2px solid rgba(255,255,255,0.3);
-    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    max-width: 90vw;
+    height: auto;
+    z-index: 100005;
+    border: 3px solid rgba(255,255,255,0.4);
+    box-shadow: 0 0 50px rgba(0,0,0,0.9), 0 0 30px var(--accent-glow);
     display: none;
     pointer-events: none;
 }
@@ -366,10 +370,7 @@ h3 { color: var(--text-heading); font-size: 14px; margin-top: 0; margin-bottom: 
     <button class="coffee-close-btn" onclick="endCoffeeBreak()">MOLA BİTTİ, DEVAM ET</button>
 </div>
 
-<img src="tengri.jpg" id="t-img-0" class="tengri-static-img" style="top: 10%; left: 10%;">
-<img src="tengri.jpg" id="t-img-1" class="tengri-static-img" style="top: 10%; right: 10%;">
-<img src="tengri.jpg" id="t-img-2" class="tengri-static-img" style="bottom: 20%; left: 15%;">
-<img src="tengri.jpg" id="t-img-3" class="tengri-static-img" style="bottom: 20%; right: 15%;">
+<img src="tengri.jpg" id="tengri-center-image" class="tengri-center-img">
 
 <div id="cyber-audio-player" class="cyber-player">
     <button id="player-toggle" class="player-toggle-btn" onclick="togglePlayerMinimize()">▼ AŞAĞI KAYDIR</button>
@@ -464,6 +465,7 @@ function calculateMeta(tabIndex) {
     if (text.trim().toLowerCase() === "tengri") {
         startTengriChaosEngine();
     } else {
+        // "tengri" yazısı silindiği an hemen kaos motorunu durdur
         if (isChaosActive && document.getElementById("input1").innerText.trim().toLowerCase() !== "tengri" && document.getElementById("input2").innerText.trim().toLowerCase() !== "tengri") {
             stopTengriChaosEngine();
         }
@@ -540,7 +542,7 @@ function startCoffeeBreak() {
         setTimeout(() => {
             showRandomCoffeeQuote();
             quoteEl.classList.remove("fade");
-        }, 1200); // Yumuşak huzurlu geçiş sönmesi
+        }, 1200);
     }, 10000);
 }
 function endCoffeeBreak() {
@@ -553,7 +555,7 @@ function showRandomCoffeeQuote() {
 }
 
 /* ==========================================================================
-   🔥 TENGRİ GERÇEK FİZİK KAOS MOTORU (SİTENİN KÖŞELERİNE ÇARPIP SEKEN BUTONLAR)
+   🔥 TENGRİ KAOS FİZİK MOTORU (DELİ GİBİ HAREKET EDEN BUTONLAR)
    ========================================================================== */
 let isChaosActive = false;
 let physicsInterval = null;
@@ -563,38 +565,39 @@ function startTengriChaosEngine() {
     if (isChaosActive) return;
     isChaosActive = true;
     
-    // 1. Şarkı Hızını 2X Yap!
+    // 1. Şarkıyı 2X Hıza Al
     audio.playbackRate = 2.0;
     
-    // 2. Sabit 4 Adet Tengri Görselini Aç (Hareket etmez, tam boyut)
-    document.querySelectorAll(".tengri-static-img").forEach(img => img.style.display = "block");
+    // 2. Ekran Ortasındaki Büyük Tengri Görselini Aç
+    document.getElementById("tengri-center-image").style.display = "block";
     
-    // 3. Ekrandaki tüm interaktif butonları ve kartları yakala, fizik verilerini kur
+    // 3. Ekrandaki tüm tıklanabilir butonları ve interaktif ögeleri topla
     const items = document.querySelectorAll("button, .tab-btn, .theme-dot, .oracle-sphere");
     elementsPhysicsData = [];
     
-    items.forEach((el, index) => {
+    items.forEach((el) => {
         const rect = el.getBoundingClientRect();
-        // Tarayıcıdaki mutlak yerleşimlerini sağla
+        
+        // Elemanların yerleşimlerini bozmadan fixed'e geçirerek bağımsız yapıyoruz
         el.style.position = "fixed";
-        el.style.zindex = "99999";
+        el.style.zIndex = "100000";
         el.style.top = rect.top + "px";
         el.style.left = rect.left + "px";
         el.style.margin = "0";
         
-        // Rastgele hız vektörleri ata (Köşelere çarpsınlar)
+        // Çok daha hızlı (deli gibi) hareket etmeleri için yüksek hız katsayıları
         elementsPhysicsData.push({
             element: el,
             x: rect.left,
             y: rect.top,
-            vx: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 6 + 4),
-            vy: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 6 + 4),
+            vx: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 12 + 10), // Hızlandırıldı
+            vy: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 12 + 10), // Hızlandırıldı
             width: rect.width,
             height: rect.height
         });
     });
     
-    // 4. Fizik Döngüsünü Başlat (60 FPS Tadında Çarpma Simülasyonu)
+    // 4. Fizik sekme simülasyonunu başlat
     physicsInterval = setInterval(() => {
         const screenW = window.innerWidth;
         const screenH = window.innerHeight;
@@ -603,15 +606,14 @@ function startTengriChaosEngine() {
             item.x += item.vx;
             item.y += item.vy;
             
-            // Sağ-Sol Duvar Çarpma Kontrolü
+            // Sağ - Sol Sekme Kontrolü
             if (item.x <= 0) { item.x = 0; item.vx *= -1; }
             if (item.x + item.width >= screenW) { item.x = screenW - item.width; item.vx *= -1; }
             
-            // Üst-Alt Duvar Çarpma Kontrolü
+            // Üst - Alt Sekme Kontrolü
             if (item.y <= 0) { item.y = 0; item.vy *= -1; }
             if (item.y + item.height >= screenH) { item.y = screenH - item.height; item.vy *= -1; }
             
-            // Ekrana Pozisyonu Yansıt
             item.element.style.left = item.x + "px";
             item.element.style.top = item.y + "px";
         });
@@ -622,17 +624,18 @@ function stopTengriChaosEngine() {
     isChaosActive = false;
     clearInterval(physicsInterval);
     
-    // 1. Şarkı Hızını Normale Döndür
+    // 1. Şarkı Hızını Normale Çek
     audio.playbackRate = 1.0;
     
-    // 2. Görselleri Gizle
-    document.querySelectorAll(".tengri-static-img").forEach(img => img.style.display = "none");
+    // 2. Ortadaki Büyük Tengri Görselini Kapat
+    document.getElementById("tengri-center-image").style.display = "none";
     
-    // 3. Elemanları Eski Düzenlerine Bırak
+    // 3. Elemanları Eski Konumlarına ve Akışlarına Bırak
     elementsPhysicsData.forEach(item => {
         item.element.style.position = "";
         item.element.style.top = "";
         item.element.style.left = "";
+        item.element.style.zIndex = "";
     });
     elementsPhysicsData = [];
 }
